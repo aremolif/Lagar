@@ -1,0 +1,200 @@
+[{
+	"Tillverkare": {
+		"Name": "LG"
+	},
+	"Butik": [{
+		"Name": "Malm\u00F6"
+	}],
+	"Name": "Mixer",
+	"Price": 348
+}, {
+	"Tillverkare": {
+		"Name": "Oral-B"
+	},
+	"Butik": [{
+		"Name": "Uddevalla"
+	}, {
+		"Name": "Malm\u00F6"
+	}, {
+		"Name": "Stockholm"
+	}],
+	"Name": "Eltandborste",
+	"Price": 299
+}, {
+	"Tillverkare": {
+		"Name": "Huawei"
+	},
+	"Butik": [{
+		"Name": "G\u00F6teborg"
+	}, {
+		"Name": "Uddevalla"
+	}, {
+		"Name": "Stockholm"
+	}],
+	"Name": "P30",
+	"Price": 4590
+}, {
+	"Tillverkare": {
+		"Name": "Wilfa"
+	},
+	"Butik": [{
+		"Name": "G\u00F6teborg"
+	}],
+	"Name": "V\u00E5ffellj\u00E4rn",
+	"Price": 190
+}, {
+	"Tillverkare": {
+		"Name": "DeLonghi"
+	},
+	"Butik": [{
+		"Name": "Stockholm"
+	}],
+	"Name": "Espresso Machine",
+	"Price": 390
+}, {
+	"Tillverkare": {
+		"Name": "Dyson"
+	},
+	"Butik": [{
+		"Name": "Stockholm"
+	}, {
+		"Name": "G\u00F6teborg"
+	}, {
+		"Name": "Helsingborg"
+	}],
+	"Name": "Dyson V11",
+	"Price": 450
+}, {
+	"Tillverkare": {
+		"Name": "Beurer"
+	},
+	"Butik": [{
+		"Name": "Stockholm"
+	}],
+	"Name": "Glasv\u00E5g",
+	"Price": 230
+}, {
+	"Tillverkare": {
+		"Name": "Tristar"
+	},
+	"Butik": [{
+		"Name": "Malm"
+	}, {
+		"Name": "Malm\u00D6"
+	}],
+	"Name": "K\u00F6kv\u00E5g",
+	"Price": 230
+}, {
+	"Tillverkare": {
+		"Name": "Russell Hobbs"
+	},
+	"Butik": [{
+		"Name": "G\u00F6teborg"
+	}],
+	"Name": "Riskokare",
+	"Price": 399
+}, {
+	"Tillverkare": {
+		"Name": "Severin"
+	},
+	"Butik": [{
+		"Name": "Malmö"
+	}],
+	"Name": "Kokplatta",
+	"Price": 649
+}, {
+	"Tillverkare": {
+		"Name": "Bosch"
+	},
+	"Butik": [{
+		"Name": "Kalmar"
+	}, {
+		"Name": "G\u00F6teborg"
+	}, {
+		"Name": "Lund"
+	}],
+	"Name": "Vattenkokare",
+	"Price": 699
+}, {
+	"Tillverkare": {
+		"Name": "Samsung"
+	},
+	"Butik": [{
+		"Name": "G\u00F6teborg"
+	}],
+	"Name": "Mikrov\u00E5gsugn",
+	"Price": 3196
+}, {
+	"Tillverkare": {
+		"Name": "Miele"
+	},
+	"Butik": [{
+		"Name": "Helsingborg"
+	}],
+	"Name": "Ecoline dammsugare",
+	"Price": 2990
+}, {
+	"Tillverkare": {
+		"Name": "Bosch"
+	},
+	"Butik": [{
+		"Name": "Stockholm"
+	}, {
+		"Name": "G\u00F6teborg"
+	}, {
+		"Name": "Uddevalla"
+	}, {
+		"Name": "Helsingborg"
+	}],
+	"Name": "Skaftdammsugare",
+	"Price": 990
+}, {
+	"Tillverkare": {
+		"Name": "Logik"
+	},
+	"Butik": [{
+		"Name": "Malm\u00F6"
+	}],
+	"Name": "Kaffebryggare",
+	"Price": 299
+}, {
+	"Tillverkare": {
+		"Name": "Samsung"
+	},
+	"Butik": [{
+		"Name": "Uddevalla"
+	}],
+	"Name": "Smart TV",
+	"Price": 9990
+}, {
+	"Tillverkare": {
+		"Name": "Electrolux"
+	},
+	"Butik": [{
+		"Name": "Stockholm"
+	}],
+	"Name": "Dammsugarp\u00E5ser",
+	"Price": 139
+}, {
+	"Tillverkare": {
+		"Name": "Lenovo"
+	},
+	"Butik": [{
+		"Name": "Stockholm"
+	}, {
+		"Name": "G\u00F6teborg"
+	}, {
+		"Name": "Malm\u00F6"
+	}],
+	"Name": "Ideapad b\u00E4rbar dator",
+	"Price": 4690
+}, {
+	"Tillverkare": {
+		"Name": "Gopro"
+	},
+	"Butik": [{
+		"Name": "V\u00E4xj\u00F6"
+	}],
+	"Name": "Hero 8 actioncamera",
+	"Price": 4090
+}]
