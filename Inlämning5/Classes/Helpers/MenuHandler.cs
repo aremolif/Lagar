@@ -22,6 +22,7 @@ namespace Inlämning5.Classes
             Console.WriteLine(" 7.  Search products by price threshold");
             Console.WriteLine(" 8.  List products available by manufacturers");
             Console.WriteLine(" 9.  Remove a shop from stock");
+            Console.WriteLine(" 10. List the whole stock");
             Console.WriteLine(" 0.  Exit the program");
         }
         internal void RunMenu(string jsonPath)
@@ -37,14 +38,20 @@ namespace Inlämning5.Classes
                         .AddJsonFile("appsettings.dev.json", true, true)
                         .Build();
 
-                var mongoConnectionString = configuration["ConnectionStrings:DefaultConnection"];
+
+
+                //var mongoConnectionString = configuration["ConnectionString::DefaultConnection"];
+                //"Data:ConnectionStrings:DefaultConnection"
+                var mongoConnectionString = configuration["MongoConnection:ConnectionString"];
+                
+                
                 var _client = new MongoClient(mongoConnectionString);
                 var _database = _client.GetDatabase("Warehouse");
                 var _collection = _database.GetCollection<Produkt>("Products");
 
-                
-                IProduktRepository productRepo = new MongoDbProduktRepository(_collection);
 
+                //IProduktRepository productRepo = new MongoDbProduktRepository();
+                IProduktRepository productRepo = new MongoDbProduktRepository(_collection); //new FileProductRepository();
                 //string jsonPathButik = "Butiker.json"; //dummy string for shop repo
                 //JsonFileHandler jsonHandlerForShops = new JsonFileHandler(jsonPathButik);
                 //IButikRepository shopRepo = new JsonFileShopRepository(jsonHandlerForShops);  //dummy
@@ -162,6 +169,16 @@ namespace Inlämning5.Classes
                                     var shopIndex = productToCheck.Butik.First(s => s.Name == shopToRemove);
                                     productToCheck.Butik.Remove(shopIndex);
                                 }
+                                break;
+                            case 10:  //not required
+                                var stockList = productRepo.GetAll();
+                                foreach (var p in stockList)
+                                {
+                                    Console.WriteLine(p);
+                                    foreach (var b in p.Butik)
+                                        Console.WriteLine($"  >{b.Name}");
+                                }
+                                Console.WriteLine("-----");
                                 break;
                             case 0:
                                 endloop = true;

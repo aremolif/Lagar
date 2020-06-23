@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Inlämning5.Classes
 {
@@ -8,6 +9,7 @@ namespace Inlämning5.Classes
         
         private  string _name;
         private decimal _price;
+        [BsonId]
         public string Id { get; set; }
         public Tillverkare Tillverkare { get; set; }
         public ICollection<Butik> Butik { get; set; }

@@ -32,3 +32,4 @@ D:\source\repos\Inlämning5\Inlämning5\bin\Debug\netcoreapp3.1\Microsoft.Extens
 D:\source\repos\Inlämning5\Inlämning5\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
 D:\source\repos\Inlämning5\Inlämning5\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.csproj.CoreCompileInputs.cache
+D:\source\repos\Inlämning5\Inlämning5\bin\Debug\netcoreapp3.1\AppSettings.json
