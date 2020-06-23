@@ -14,13 +14,8 @@ namespace Inlämning5.Classes
             ProductRepository = productRepository;
             ShopRepository = shopRepository;
         }
-        public ProduktFilter(IProduktRepository productRepository)
-        {
-            ProductRepository = productRepository;
-           
-        }
         public ProduktFilter() { }
-        
+
         public ICollection<Butik> SearchProductAvailability(Produkt product)
         {
             if (product.Butik.Count() > 0)
@@ -30,14 +25,7 @@ namespace Inlämning5.Classes
             else
                 return new List<Butik>();
         }
-        internal void PrintButiker()
-        {
-            Console.WriteLine($"Product availability:");
-            foreach (var butik in SearchProductAvailability(GetProductDetails()))
-            {
-                Console.WriteLine($"  >{butik.Name}");
-            }
-        }
+        
         public static Produkt GetProductDetails()
         {
             Console.WriteLine("Insert product name:");
@@ -50,17 +38,9 @@ namespace Inlämning5.Classes
             Console.WriteLine("Insert shops - type exit to finish:");
 
 
-            //product.Butik = Clone(productRepo.AddListButik(product));
-
-
-
             return product;
         }
-        public List<Butik> Clone(ICollection<Butik> butikerList)
-        {
-            // ToList() will give a new List. Otherwise Collection will use the same IList we passed.
-            return new List<Butik>(butikerList);
-        }
+        
         private ICollection<Butik> AddListButik(Produkt product)
         {
             var butik = new List<Butik>();
@@ -68,12 +48,7 @@ namespace Inlämning5.Classes
             GetButikDetails(product);
             return butik;
         }
-        public Butik AddButik(string butikName)
-        {
-            var butikToAdd = new Butik();
-            butikToAdd.Name = butikName;
-            return butikToAdd;
-        }
+        
         internal ICollection<Butik> GetButikDetails(Produkt product)
         {
             var butik = new List<Butik>();
@@ -88,7 +63,7 @@ namespace Inlämning5.Classes
                 {
                     if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
                     {
-                        butikToAdd = AddButik(butikName);
+                        butikToAdd = product.AddButik(butikName);
                         butik.Add(butikToAdd);
                     }
                 }
@@ -97,10 +72,25 @@ namespace Inlämning5.Classes
 
 
         }
+        public class ProductCount
+        {
+            public ProductCount(Tillverkare manufacturer, int count)
+            {
+                Manufacturer = manufacturer;
+                Count = count;
+            }
 
+            public Tillverkare Manufacturer { get; }
+            public int Count { get; }
+
+            public override string ToString()
+            {
+                return "Manufacturer " + " " + Manufacturer.Name + " " + Count;
+            }
+        }
         internal void ChangeProductAvailability(Produkt product)
         {
-            PrintShopsWithProduct(product);
+            ConsoleHelper.PrintShopsWithProduct(product);
             
             Console.WriteLine("Insert shop name");
             string shopDetail = Console.ReadLine();
@@ -141,30 +131,25 @@ namespace Inlämning5.Classes
             }
         }
 
-        private void PrintShopsWithProduct(Produkt product)
+        
+
+        public IEnumerable<Produkt> SearchByPrice(decimal maxPrice)
         {
-            Console.WriteLine("Current availability");
-            foreach (var butik in product.Butik)
-                Console.WriteLine($"  >{butik.Name}"); ;
+            return ProductRepository.GetAll().Where(s => s.Price < maxPrice).OrderByDescending(p => p.Price).Take(10);
+            
         }
 
-        public IEnumerable<Produkt> SearchByPrice(decimal maxPrice, IEnumerable<Produkt> products)
+        public IEnumerable<Produkt> SearchProductByName(string name)
         {
-            var query = products.Where(s => s.Price < maxPrice).OrderByDescending(p => p.Price).Take(10);
-            return query;
-        }  
-            
-        internal void PrintProductFilteredByPrice(decimal maxPrice, IEnumerable<Produkt> FilteredProdukt)
-        { 
-        if (!FilteredProdukt.Any())
-                Console.WriteLine($"No products found with price less than {maxPrice}");
-            else
-            {
-                Console.WriteLine($"\n{"Product",-20}  {"Price",10}");
-                foreach (var product in FilteredProdukt)
-                    Console.WriteLine($"{product.Name.PadRight(20)}  {product.Price,10}");
-                Console.WriteLine("-----");
-            }
+            return ProductRepository.GetAll().Where(p => p.Name.Contains(name));
+        }
+        public IEnumerable<Produkt> SearchAllStock()
+        {
+            return ProductRepository.GetAll();
+        }
+        public IEnumerable<Butik> ListShopsWithProduct(Produkt product)
+        {
+            return product.Butik;
         }
         internal void GetManufacturersInventory(IEnumerable<Produkt> products)
         {

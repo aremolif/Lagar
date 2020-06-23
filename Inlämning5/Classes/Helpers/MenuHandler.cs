@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Inlämning5.Classes.Repositories;
+using System.Collections.Generic;
 
 namespace Inlämning5.Classes
 {
@@ -29,8 +30,7 @@ namespace Inlämning5.Classes
         {
             try
             {
-                //JsonFileHandler jsonHandler = new JsonFileHandler(jsonPath);
-                //IProduktRepository productRepo = new JsonFileProductRepository(jsonHandler);
+                
 
                 //***MONGODB
                 IConfiguration configuration = new ConfigurationBuilder()
@@ -38,25 +38,25 @@ namespace Inlämning5.Classes
                         .AddJsonFile("appsettings.dev.json", true, true)
                         .Build();
 
-
-
-                //var mongoConnectionString = configuration["ConnectionString::DefaultConnection"];
-                //"Data:ConnectionStrings:DefaultConnection"
                 var mongoConnectionString = configuration["MongoConnection:ConnectionString"];
-                
-                
+                                
                 var _client = new MongoClient(mongoConnectionString);
                 var _database = _client.GetDatabase("Warehouse");
-                var _collection = _database.GetCollection<Produkt>("Products");
+                var _collectionProducts = _database.GetCollection<Produkt>("Products");
+                var _collectionShops = _database.GetCollection<Butik>("Shops");
 
 
-                //IProduktRepository productRepo = new MongoDbProduktRepository();
-                IProduktRepository productRepo = new MongoDbProduktRepository(_collection); //new FileProductRepository();
-                //string jsonPathButik = "Butiker.json"; //dummy string for shop repo
-                //JsonFileHandler jsonHandlerForShops = new JsonFileHandler(jsonPathButik);
-                //IButikRepository shopRepo = new JsonFileShopRepository(jsonHandlerForShops);  //dummy
+                IProduktRepository productRepo = new MongoDbProduktRepository(_collectionProducts);
 
-                ProduktFilter produktQuery = new ProduktFilter(productRepo);
+                IButikRepository shopRepo = new MongoDbButikRepository(_collectionShops);
+                
+                
+                //var shopsList = shopRepo.GetAll();
+                //var totalItems = shopsList.Count();
+                
+                
+                
+                ProduktFilter produktQuery = new ProduktFilter(productRepo, shopRepo);
 
 
                 bool endloop = false;
@@ -113,16 +113,18 @@ namespace Inlämning5.Classes
                                     Console.WriteLine("Product not found");
                                 break;
                             case 4:
-                                product = new Produkt();
+                                
                                 Console.WriteLine("Insert product name");
-                                string productToFind = Console.ReadLine();
-                                product = productRepo.GetById(productToFind);
-                                if (product != null)
+                                string productName = Console.ReadLine();
+                                var matchedProduct = produktQuery.SearchProductByName(productName);
 
-                                    //produktQuery.SearchProductAvailability(product);
-                                    produktQuery.PrintButiker();
+                                if (matchedProduct.Any())
+                                {
+                                    foreach (var p in matchedProduct)
+                                        ConsoleHelper.PrintButiker(produktQuery.ListShopsWithProduct(p));
+                                }
                                 else
-                                    Console.WriteLine("Product not found"); ;
+                                    Console.WriteLine($"  >Product {productName} not found"); ;
                                 break;
                             case 5:
                                 Console.WriteLine("Insert product name");
@@ -147,7 +149,7 @@ namespace Inlämning5.Classes
                                 {
                                     var maxPrice = decimal.Parse(Console.ReadLine());
                                     if (maxPrice > 0)
-                                        produktQuery.SearchByPrice(maxPrice, productRepo.GetAll());
+                                        ConsoleHelper.PrintProductFilteredByPrice(maxPrice, produktQuery.SearchByPrice(maxPrice));
                                     else
                                         throw new FormatException();
                                 }
@@ -171,14 +173,8 @@ namespace Inlämning5.Classes
                                 }
                                 break;
                             case 10:  //not required
-                                var stockList = productRepo.GetAll();
-                                foreach (var p in stockList)
-                                {
-                                    Console.WriteLine(p);
-                                    foreach (var b in p.Butik)
-                                        Console.WriteLine($"  >{b.Name}");
-                                }
-                                Console.WriteLine("-----");
+                                
+                                ConsoleHelper.PrintProductsList(produktQuery.SearchAllStock());
                                 break;
                             case 0:
                                 endloop = true;
@@ -202,6 +198,9 @@ namespace Inlämning5.Classes
 
 
         }
+
+        
+
         private static Produkt GetProductDetails()
         {
             var product = new Produkt();

@@ -68,7 +68,7 @@ namespace Inlämning5UnitTests
             
             var maxPrice = 350;
 
-            var actualListOfFilteredProduct = sut.SearchByPrice(maxPrice, _productsList);
+            var actualListOfFilteredProduct = sut.SearchByPrice(maxPrice);
             Assert.Single(actualListOfFilteredProduct);
         }
     }

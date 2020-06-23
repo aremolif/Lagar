@@ -8,9 +8,7 @@ namespace Inlämning5.Classes.Repositories
 {
     public class MongoDbProduktRepository : IProduktRepository
     {
-        //private IMongoCollection<Produkt> _collection;
-        private MongoClient _client;
-        private IMongoDatabase _database;
+        
         private IMongoCollection<Produkt> _collection;
 
         public MongoDbProduktRepository(IMongoCollection<Produkt> collection)
@@ -18,23 +16,10 @@ namespace Inlämning5.Classes.Repositories
             _collection = collection;
         }
 
-        public MongoDbProduktRepository()
-        {
-            _client = new MongoClient("mongodb://localhost:27020");
-            _database = _client.GetDatabase("Warehouse");
-            _collection = _database.GetCollection<Produkt>("Products");
-            //if (!_database.Ping())
-            //    throw new Exception("Could not connect to MongoDb");
-        }
-
-        
-        
         public IEnumerable<Produkt> GetAll()
         {
-            var all = _collection.Find(Builders<Produkt>.Filter.Empty).ToEnumerable();
-
-            //return all.ToEnumerable();
-            return all;
+            var all = _collection.Find(Builders<Produkt>.Filter.Empty);
+            return all.ToEnumerable();
         }
 
         public Produkt GetById(string id)

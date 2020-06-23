@@ -24,11 +24,10 @@ namespace Inlämning5.Classes
                 _name = value;
             }
         }
-        public Tillverkare()
+        public override string ToString()
         {
-            this.Produkter = new List<Produkt>();
+            return Name;
         }
-        [JsonIgnore]
-        public ICollection<Produkt> Produkter { get; set; }
+
     }
 }

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Inlämning5.Classes
 {
     public class Produkt
     {
-        
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         private  string _name;
         private decimal _price;
-        [BsonId]
-        public string Id { get; set; }
+               
         public Tillverkare Tillverkare { get; set; }
         public ICollection<Butik> Butik { get; set; }
 
@@ -44,7 +45,12 @@ namespace Inlämning5.Classes
                     throw new ArgumentNullException(nameof(Name));
                 }
                 _price = value; } }
-        
+        public Butik AddButik(string butikName)
+        {
+            var butikToAdd = new Butik();
+            butikToAdd.Name = butikName;
+            return butikToAdd;
+        }
         public override string ToString() => $"Name: {Name} Price: {Price} Tillverkare: {Tillverkare.Name} ";
     }
 }

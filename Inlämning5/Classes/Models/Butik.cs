@@ -1,23 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Inlämning5.Classes
 {
     public class Butik
     {
-        private string _name;
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public Butik()
-        {
-            this.Produkter = new List<Produkt>();
-        }
-
-        public Butik(Butik other)
-        {
-            _name = other.Name;
-            this.Produkter = new List<Produkt>();
-        }
+        private string _name;
+        
+        
         public string Name { 
                 get
             { return _name; }
