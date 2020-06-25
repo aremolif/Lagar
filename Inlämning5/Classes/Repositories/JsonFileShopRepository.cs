@@ -41,5 +41,10 @@ namespace Inlämning5.Classes
         {
             throw new NotImplementedException();
         }
+
+        public void Update(Butik item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

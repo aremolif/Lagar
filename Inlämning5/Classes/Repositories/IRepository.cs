@@ -10,6 +10,7 @@ namespace Inlämning5.Classes
         T GetById(string id);
         void Delete(T item);
         void Insert(T item);
+        void Update(T item);
         void Save();
     }
 

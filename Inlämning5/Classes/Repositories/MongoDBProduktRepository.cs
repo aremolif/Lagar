@@ -40,6 +40,7 @@ namespace Inlämning5.Classes.Repositories
 
         public void Update(Produkt product)
         {
+            Console.WriteLine($"Id da cercare: {product.Id}");
             _collection.ReplaceOne(p => p.Id == product.Id, product);
         }
 

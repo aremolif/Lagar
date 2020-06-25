@@ -28,8 +28,12 @@ namespace Inlämning5.Classes
                 }
         }
         
-        [JsonIgnore]
-        public ICollection<Produkt> Produkter { get; set; }
+        //[JsonIgnore]
+        //public ICollection<Produkt> Produkter { get; set; }
+        public Butik(string name) 
+        {
+            Name = name;
+        }
 
         public override string ToString()
         {

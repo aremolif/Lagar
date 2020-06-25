@@ -42,6 +42,11 @@ namespace Inlämning5.Classes
         {
             JsonFileHandler.SaveChanges(ProductsList); 
         }
+
+        public void Update(Produkt item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

@@ -45,12 +45,15 @@ namespace Inlämning5.Classes
                     throw new ArgumentNullException(nameof(Name));
                 }
                 _price = value; } }
-        public Butik AddButik(string butikName)
+        public void AddShop(Butik butik)
         {
-            var butikToAdd = new Butik();
-            butikToAdd.Name = butikName;
-            return butikToAdd;
+            Butik.Add(butik);   
         }
+        public void RemoveShop(Butik shop)
+        {
+            Butik.Remove(shop);
+        }
+
         public override string ToString() => $"Name: {Name} Price: {Price} Tillverkare: {Tillverkare.Name} ";
     }
 }

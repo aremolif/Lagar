@@ -10,22 +10,7 @@ namespace Inlämning5.Classes
 {
     public class MenuHandler
     {
-        internal void DisplayMenu()
-        {
-            Console.WriteLine("Choose an action from the menu:");
-            Console.WriteLine("_______________________________");
-            Console.WriteLine(" 1.  Add a product");
-            Console.WriteLine(" 2.  Update a product");
-            Console.WriteLine(" 3.  Delete a product");
-            Console.WriteLine(" 4.  Find product availability");
-            Console.WriteLine(" 5.  Modify product availability");
-            Console.WriteLine(" 6.  Search products by likelihood");
-            Console.WriteLine(" 7.  Search products by price threshold");
-            Console.WriteLine(" 8.  List products available by manufacturers");
-            Console.WriteLine(" 9.  Remove a shop from stock");
-            Console.WriteLine(" 10. List the whole stock");
-            Console.WriteLine(" 0.  Exit the program");
-        }
+        
         internal void RunMenu(string jsonPath)
         {
             try
@@ -62,45 +47,133 @@ namespace Inlämning5.Classes
                 bool endloop = false;
                 while (!endloop)
                 {
-                    DisplayMenu();
+                    ConsoleHelper.DisplayMenu();
                     try
                     {
                         int choice = int.Parse(Console.ReadLine());
                         var product = new Produkt();
                         switch (choice)
                         {
-                            case 1:
+                            case 1:  //ok
                                 Console.WriteLine("Insert product name:");
                                 var newProductName = Console.ReadLine();
-                                if (productRepo.GetById(newProductName) != null)
+                                if (produktQuery.SearchProductByName(newProductName).Any())
                                     Console.WriteLine($"Product {newProductName} already present. Press 2 to update in main menu");
                                 else
                                 {
-                                    product = GetProductDetails();
+                                    var newProduct = ConsoleHelper.CreateNewProduct(newProductName);
                                     Console.WriteLine("Insert shops - type exit to finish:");
-                                    AddListButik(product);
+                                    while (true)
+                                    {
+                                        var butikName = Console.ReadLine();
+                                        if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (newProduct.Butik.Count > 0))
+                                            break;
+                                        else
+                                        {
+                                            if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                var newButik = new Butik(butikName);
+                                                if (!produktQuery.SearchShopByName(butikName).Any())  //negozio non ancora censito
+                                                {
+                                                    
+                                                    shopRepo.Insert(newButik);
 
-                                    productRepo.Insert(product);
-                                    productRepo.Save();
+                                                }
+                                                newButik.Id= produktQuery.SearchShopByName(butikName).First().Id;
+                                                newProduct.AddShop(newButik);
+                                            }
+                                        }
+                                    }
+                                    productRepo.Insert(newProduct);   
                                 }
                                 break;
-                            case 2:
-                                Console.WriteLine("Insert product name:");
-                                var productCurrentName = Console.ReadLine();
-                                var productToUpdate = productRepo.GetById(productCurrentName);
+                            case 2:  //ok
+                                ConsoleHelper.PrintList("All products", productRepo.GetAll().Select(p => p.Name));
+                                Console.WriteLine("Insert current product name:");
+                                var productName = Console.ReadLine();
+                                var productToUpdate = produktQuery.SearchProductByName(productName).First();
+                                Console.WriteLine(productToUpdate.Id);
                                 if (productToUpdate != null)
                                 {
-                                    product = GetProductDetails();
-                                    Console.WriteLine("Insert shops - type exit to finish:");
-                                    
-                                    AddListButik(product);
-
-                                    productRepo.Save();
+                                    Console.WriteLine("Insert new product name:");
+                                    var newName = Console.ReadLine();
+                                    productToUpdate.Name = newName;
+                                    productRepo.Update(productToUpdate);
+                                    ConsoleHelper.PrintList("All products", productRepo.GetAll().Select(p => p.Name));
                                 }
                                 else
-                                    Console.WriteLine($"Product {productToUpdate} not found. Press 1 to add in main menu");
+                                    Console.WriteLine("Product not found");
                                 break;
-                            case 3:
+                            case 3: //ok
+                                ConsoleHelper.PrintList("All products", productRepo.GetAll().Select(p => p.Name));
+                                Console.WriteLine("Insert current product name:");
+                                var Name = Console.ReadLine();
+                                var productToChange = produktQuery.SearchProductByName(Name).First();
+                                
+                                if (productToChange != null)
+                                {
+                                    Console.WriteLine($"Current product price: {productToChange.Price}");
+                                    Console.WriteLine("Insert new product price:");
+                                    var newPrice = int.Parse(Console.ReadLine()); ;
+                                    productToChange.Price = newPrice;
+                                    productRepo.Update(productToChange);
+                                    //ConsoleHelper.PrintList("Product updated", productRepo.GetById(productToChange.Id).Name);
+                                    Console.WriteLine($"price updated: {productToChange.Name} {productToChange.Price}");
+                                }
+                                else
+                                    Console.WriteLine("Product not found");
+                                break;
+                            case 4:  // ok
+                                
+                                Console.WriteLine("Insert product name");
+                                string productAvailable = Console.ReadLine();
+                                product = produktQuery.SearchProductByName(productAvailable).First();
+                                if (product != null)
+                                {
+                                    Console.WriteLine("Insert shops - type exit to finish:");
+                                    while (true)
+                                    {
+                                        var butikName = Console.ReadLine();
+                                        if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Butik.Count > 0))
+                                            break;
+                                        else
+                                        {
+                                            if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                var newButik = new Butik(butikName);
+                                                product.AddShop(newButik);  //aggiunge anche se e' giå nel negozio
+                                                var butik = produktQuery.SearchShopByName(butikName);
+                                                //aggiornare shop DB
+                                                if (!butik.Any())
+                                                {
+                                                    shopRepo.Insert(newButik);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    //aggiorna il record
+                                    productRepo.Update(product);
+                                }
+                                else
+                                    Console.WriteLine("Product not found");
+                                break;
+                            case 5: //Da verificare****
+                                Console.WriteLine("Insert product name");
+                                string productToAdjust = Console.ReadLine();
+                                product = produktQuery.SearchProductByName(productToAdjust).First();
+                                if (product != null)
+                                {
+                                    Console.WriteLine("Insert shop to remove from product:");
+                                    var shopToDelete = Console.ReadLine();
+                                    Console.WriteLine(produktQuery.SearchShopByName(shopToDelete).First());
+                                    product.RemoveShop(produktQuery.SearchShopByName(shopToDelete).First());
+                                    
+                                    productRepo.Update(product);
+                                }
+                                else
+                                    Console.WriteLine("Product not found");
+                                break;
+                            case 6:  //delete product from stock
                                 Console.WriteLine("Insert product name:");
                                 var productToDelete = Console.ReadLine();
                                 product = productRepo.GetById(productToDelete);
@@ -112,27 +185,32 @@ namespace Inlämning5.Classes
                                 else
                                     Console.WriteLine("Product not found");
                                 break;
-                            case 4:
-                                
-                                Console.WriteLine("Insert product name");
-                                string productName = Console.ReadLine();
-                                var matchedProduct = produktQuery.SearchProductByName(productName);
 
-                                if (matchedProduct.Any())
+                            case 7:  //remove shop from stock
+                                Console.WriteLine("Insert shop name");
+                                string shopToRemove = Console.ReadLine();
+                                var productsList = productRepo.GetAll();
+                                foreach (var productScan in productsList)
                                 {
-                                    foreach (var p in matchedProduct)
+                                    var shopIndex = productScan.Butik.First(s => s.Name == shopToRemove);
+                                    productScan.Butik.Remove(shopIndex);
+                                }
+                                break;
+                            case 8:
+
+                                Console.WriteLine("Insert product name");
+                                string productToCheck = Console.ReadLine();
+                                var matchedProducts = produktQuery.SearchProductByName(productToCheck);
+
+                                if (matchedProducts.Any())
+                                {
+                                    foreach (var p in matchedProducts)
                                         ConsoleHelper.PrintButiker(produktQuery.ListShopsWithProduct(p));
                                 }
                                 else
-                                    Console.WriteLine($"  >Product {productName} not found"); ;
+                                    Console.WriteLine($"  >Product {productToCheck} not found"); ;
                                 break;
-                            case 5:
-                                Console.WriteLine("Insert product name");
-                                string productAvailable = Console.ReadLine();
-                                product = productRepo.GetById(productAvailable);
-                                produktQuery.ChangeProductAvailability(product);
-                                break;
-                            case 6:
+                            case 9:
                                 Console.WriteLine("Insert a product to search");
                                 var wordToSearch = Console.ReadLine();
                                 var productsStock = productRepo.GetAll();
@@ -141,9 +219,10 @@ namespace Inlämning5.Classes
                                     produktQuery.PrintFuzzySearchResults(results);
                                 else
                                     Console.WriteLine("No match found");
-                                
+
                                 break;
-                            case 7:
+
+                            case 10:
                                 Console.WriteLine("Insert max price");
                                 try
                                 {
@@ -158,21 +237,13 @@ namespace Inlämning5.Classes
                                     Console.WriteLine("Invalid input");
                                 }
                                 break;
-                            case 8:
+                            case 11:
                                 var products = productRepo.GetAll();
-                                produktQuery.GetManufacturersInventory(products);
+                                //produktQuery.GetManufacturersInventory(products);
+
+                                ConsoleHelper.PrintList("Products for each Manufacturer", produktQuery.ListOfManufacturersWithProductCount());
                                 break;
-                            case 9:
-                                Console.WriteLine("Insert shop name");
-                                string shopToRemove = Console.ReadLine();
-                                var productsList = productRepo.GetAll();
-                                foreach (var productToCheck in productsList)
-                                {
-                                    var shopIndex = productToCheck.Butik.First(s => s.Name == shopToRemove);
-                                    productToCheck.Butik.Remove(shopIndex);
-                                }
-                                break;
-                            case 10:  //not required
+                            case 12:  //not required
                                 
                                 ConsoleHelper.PrintProductsList(produktQuery.SearchAllStock());
                                 break;
@@ -201,35 +272,28 @@ namespace Inlämning5.Classes
 
         
 
-        private static Produkt GetProductDetails()
-        {
-            var product = new Produkt();
-            Console.WriteLine("Insert product price:");
-            product.Price = int.Parse(Console.ReadLine());
-            Console.WriteLine("Insert product manufacturer:");
-            product.Tillverkare.Name = Console.ReadLine();
-            return product;
-        }
+        
 
-        private static void AddListButik(Produkt product)
-        {
-            while (true)
-            {
-                var butikToAdd = new Butik();
-                var butikName = Console.ReadLine();
+        //private static void AddListButik(Produkt product)
+        //{
+        //    while (true)
+        //    {
+        //        var butikToAdd = new Butik();
+        //        var butikName = Console.ReadLine();
 
-                if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Butik.Count > 0))
-                    break;
-                else
-                {
-                    if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                    {
-                        butikToAdd.Name = butikName;
-                        product.Butik.Add(butikToAdd);
-                    }
-                }
-            }
-        }
+        //        if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Butik.Count > 0))
+        //            break;
+        //        else
+        //        {
+        //            if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                butikToAdd.Name = butikName;
+        //                product.Butik.Add(butikToAdd);
+        //            }
+        //        }
+        //    }
+        //}
+        
         private static void PrintButiker(object v)
         {
             throw new NotImplementedException();

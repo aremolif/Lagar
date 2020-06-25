@@ -19,7 +19,6 @@ namespace Inlämning5.Classes
                 if (string.IsNullOrEmpty(value))
                 {
 
-                    throw new ArgumentNullException(nameof(Name));
                 }
                 _name = value;
             }

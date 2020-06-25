@@ -41,37 +41,42 @@ namespace Inlämning5.Classes
             return product;
         }
         
-        private ICollection<Butik> AddListButik(Produkt product)
-        {
-            var butik = new List<Butik>();
+        //private ICollection<Butik> AddListButik(Produkt product)
+        //{
+        //    var butik = new List<Butik>();
+        //    //shopRepository.Insert(shop);
+        //    //shopRepository.Insert(shop1);
 
-            GetButikDetails(product);
-            return butik;
-        }
+        //    //newProduct.AddShop(shop);
+        //    //newProduct.AddShop(shop1);
+
+        //    GetButikDetails(product);
+        //    return butik;
+        //}
         
-        internal ICollection<Butik> GetButikDetails(Produkt product)
-        {
-            var butik = new List<Butik>();
+        //internal ICollection<Butik> AddButiker(Produkt product)
+        //{
+        //    var butik = new List<Butik>();
 
-            var butikToAdd = new Butik();
-            while (true)
-            {
-                var butikName = Console.ReadLine();
-                if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Butik.Count > 0))
-                    break;
-                else
-                {
-                    if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                    {
-                        butikToAdd = product.AddButik(butikName);
-                        butik.Add(butikToAdd);
-                    }
-                }
-            }
-            return butik;
+        //    var butikToAdd = new Butik();
+        //    while (true)
+        //    {
+        //        var butikName = Console.ReadLine();
+        //        if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Butik.Count > 0))
+        //            break;
+        //        else
+        //        {
+        //            if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                butikToAdd = product.AddShop(butikName);
+        //                butik.Add(butikToAdd);
+        //            }
+        //        }
+        //    }
+        //    return butik;
 
 
-        }
+        //}
         public class ProductCount
         {
             public ProductCount(Tillverkare manufacturer, int count)
@@ -88,6 +93,13 @@ namespace Inlämning5.Classes
                 return "Manufacturer " + " " + Manufacturer.Name + " " + Count;
             }
         }
+        public IEnumerable<ProductCount> ListOfManufacturersWithProductCount()
+        {
+            return ProductRepository.GetAll()
+                .GroupBy(p => p.Tillverkare).Select(g =>
+                    new ProductCount(g.Key, g.Count()));
+        }
+
         internal void ChangeProductAvailability(Produkt product)
         {
             ConsoleHelper.PrintShopsWithProduct(product);
@@ -96,7 +108,7 @@ namespace Inlämning5.Classes
             string shopDetail = Console.ReadLine();
             
             
-            Butik newButik = new Butik() { Name = shopDetail };
+            Butik newButik = new Butik(shopDetail);
             Console.WriteLine("Insert the action to perform:");
             Console.WriteLine("1. To add the product to the shop");
             Console.WriteLine("2. To remove the product from the shop ");
@@ -141,7 +153,13 @@ namespace Inlämning5.Classes
 
         public IEnumerable<Produkt> SearchProductByName(string name)
         {
-            return ProductRepository.GetAll().Where(p => p.Name.Contains(name));
+            //return ProductRepository.GetAll().Where(p => p.Name.Contains(name));
+            return ProductRepository.GetAll().Where(p=> p.Name.Equals(name));
+            
+        }
+        public IEnumerable<Butik> SearchShopByName(string name)
+        {
+            return ShopRepository.GetAll().Where(p => p.Name.Equals(name)); 
         }
         public IEnumerable<Produkt> SearchAllStock()
         {
@@ -195,5 +213,7 @@ namespace Inlämning5.Classes
             Console.WriteLine($">  {s.matchedName}");
             
         }
+
+        
     }
 }

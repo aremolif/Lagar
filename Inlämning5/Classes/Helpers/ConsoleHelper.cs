@@ -1,13 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MongoDB.Driver;
+using Inlämning5.Classes.Models;
 
 namespace Inlämning5.Classes
 {
     public static class ConsoleHelper
     {
+        public static void DisplayMenu()
+        {
+            Console.WriteLine("Choose an action from the menu:");
+            Console.WriteLine("_______________________________");
+            Console.WriteLine(" 1.  Add a product");
+            Console.WriteLine(" 2.  Update product name");
+            Console.WriteLine(" 3.  Update product price");
+            Console.WriteLine(" 4.  Add product to a shop");
+            Console.WriteLine(" 5.  Remove product from a shop");
+            Console.WriteLine(" 6.  Remove a product from stock");
+            Console.WriteLine(" 7.  Remove a shop from stock");
+            Console.WriteLine(" 8.  Find product availability");
+            Console.WriteLine(" 9.  Search products by likelihood");
+            Console.WriteLine(" 10. Search products by price threshold");
+            Console.WriteLine(" 11. List products available by manufacturers");
+            Console.WriteLine(" 12. List the whole stock");
+            Console.WriteLine(" 0.  Exit the program");
+        }
+        //private static Produkt GetProductDetails()
+        //{
+        //    var product = new Produkt();
+        //    Console.WriteLine("Insert product price:");
+        //    product.Price = int.Parse(Console.ReadLine());
+        //    Console.WriteLine("Insert product manufacturer:");
+        //    product.Tillverkare.Name = Console.ReadLine();
+        //    return product;
+        //}
+        public static Produkt CreateNewProduct(string name)
+        {
+            Console.WriteLine("Please enter Price (,): ");
+            var price = decimal.Parse(Console.ReadLine());
+
+            Console.WriteLine("Please enter Manufacturer id : ");
+            var mID = int.Parse(Console.ReadLine());
+            Tillverkare manufacturer = TillverkareService.GetManufacturer(mID);
+            
+            Produkt product = new Produkt()
+            {
+                Name = name,
+                Tillverkare = manufacturer,
+                Price = price
+            };
+            return product;
+        }
         public static void PrintProductFilteredByPrice(decimal maxPrice, IEnumerable<Produkt> FilteredProdukt)
         {
             if (!FilteredProdukt.Any())
@@ -31,6 +75,8 @@ namespace Inlämning5.Classes
             Console.WriteLine("-----");
         }
 
+        
+
         public static void PrintButiker(IEnumerable<Butik> shopList)
         {
             Console.WriteLine($"Product availability:");
@@ -44,6 +90,14 @@ namespace Inlämning5.Classes
             Console.WriteLine("Current availability");
             foreach (var butik in product.Butik)
                 Console.WriteLine($"  >{butik.Name}"); ;
+        }
+        public static void PrintList<T>(string header, IEnumerable<T> items)
+        {
+            Console.WriteLine(header);
+            foreach (var item in items)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
     
