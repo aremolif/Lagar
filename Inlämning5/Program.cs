@@ -15,7 +15,7 @@ namespace Inlämning5
             var jsonPath = menuHelper.SetPath("Produkter.json");
             if (File.Exists(jsonPath))
             {
-                menuHelper.RunMenu(jsonPath);
+                menuHelper.RunMenu();
                 
             } 
             else

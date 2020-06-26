@@ -26,15 +26,6 @@ namespace Inlämning5.Classes
             Console.WriteLine(" 12. List the whole stock");
             Console.WriteLine(" 0.  Exit the program");
         }
-        //private static Produkt GetProductDetails()
-        //{
-        //    var product = new Produkt();
-        //    Console.WriteLine("Insert product price:");
-        //    product.Price = int.Parse(Console.ReadLine());
-        //    Console.WriteLine("Insert product manufacturer:");
-        //    product.Tillverkare.Name = Console.ReadLine();
-        //    return product;
-        //}
         public static Produkt CreateNewProduct(string name)
         {
             Console.WriteLine("Please enter Price (,): ");
@@ -74,9 +65,6 @@ namespace Inlämning5.Classes
             }
             Console.WriteLine("-----");
         }
-
-        
-
         public static void PrintButiker(IEnumerable<Butik> shopList)
         {
             Console.WriteLine($"Product availability:");
@@ -96,7 +84,7 @@ namespace Inlämning5.Classes
             Console.WriteLine(header);
             foreach (var item in items)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"  >{item}");
             }
         }
     }

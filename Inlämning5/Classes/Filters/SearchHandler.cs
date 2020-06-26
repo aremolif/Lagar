@@ -6,8 +6,8 @@ namespace Inlämning5.Classes
 {
     public class SearchHandler : IStringDistance
     {
-        public float distance { get; set; }
-        public string matchedName { get; set; }
+        public float Distance { get; set; }
+        public string MatchedName { get; set; }
         public float GetDistance(String target, String other)  //Levenshtein metric
         {
                 char[] sa;

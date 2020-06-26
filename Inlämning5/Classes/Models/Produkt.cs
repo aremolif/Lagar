@@ -45,9 +45,9 @@ namespace Inlämning5.Classes
                     throw new ArgumentNullException(nameof(Name));
                 }
                 _price = value; } }
-        public void AddShop(Butik butik)
+        public void AddShop(Butik shop)
         {
-            Butik.Add(butik);   
+            Butik.Add(shop);   
         }
         public void RemoveShop(Butik shop)
         {
