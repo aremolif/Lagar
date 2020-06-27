@@ -1,0 +1,8 @@
+{"_id":{"$oid":"5ef24a6636ef8925b83bdc11"},"Name":"Uddevalla"}
+{"_id":{"$oid":"5ef24a6636ef8925b83bdc12"},"Name":"Malmö"}
+{"_id":{"$oid":"5ef32cc92a6a7f456c6d2f2b"},"Name":"Orust"}
+{"_id":{"$oid":"5ef32cd22a6a7f456c6d2f2c"},"Name":"Kiruna"}
+{"_id":{"$oid":"5ef337a69757d846ac957cf8"},"Name":"Stockholm"}
+{"_id":{"$oid":"5ef33933cfc0f0199c7c4069"},"Name":"Göteborg"}
+{"_id":{"$oid":"5ef339b9cfc0f0199c7c406d"},"Name":"Helsingborg"}
+{"_id":{"$oid":"5ef45cfc33d91d136007c906"},"Name":"Umeå"}
