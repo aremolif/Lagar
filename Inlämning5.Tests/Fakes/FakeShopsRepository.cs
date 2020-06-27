@@ -20,7 +20,7 @@ namespace Inlämning5.Tests
 
         public IEnumerable<Butik> GetAll()
         {
-            throw new NotImplementedException();
+            return shopsList;
         }
 
         public Butik GetById(string id)

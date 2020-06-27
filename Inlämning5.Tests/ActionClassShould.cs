@@ -14,14 +14,7 @@ namespace Inlämning5.Tests
         public void Action_ConstructorExpectsInstantiation()
         {
             
-            IButikRepository<Butik> shopsList = new List<Butik>(){
-                new Butik("Stockholm"),
-                new Butik("Orust"),
-                new Butik("Göteborg"),
-                new Butik("Malmö")
-            };
-            ProduktFilter produktQuery = new ProduktFilter(productsList, shopsList);
-            _sut = new Actions(productsList,shopsList,produktQuery);
+            
         }
     
     
@@ -29,11 +22,7 @@ namespace Inlämning5.Tests
         [Fact]
         public void UpdateShopCollectionShoulReturnAButikObject()
         {
-            var _sut = new Actions();
-            var _productFilter= new ProduktFilter();
-
-            //IEnumerable<Butik> shopsList = 
-        
+            
         }
 
     }

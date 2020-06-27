@@ -87,6 +87,13 @@ namespace Inlämning5.Classes
                 Console.WriteLine($"  >{item}");
             }
         }
+        public static void PrintFuzzySearchResults(IEnumerable<SearchHandler> searchResults)
+        {
+            Console.WriteLine("Search results:");
+            foreach (var s in searchResults)
+                Console.WriteLine($">  {s.MatchedName}");
+
+        }
     }
     
 

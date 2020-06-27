@@ -117,7 +117,7 @@ namespace Inlämning5.Classes.Filters
             var productsStock = ProductRepository.GetAll();
             var results = ProductQuery.SearchByLikelihood(wordToSearch, productsStock);
             if (results.Any())
-                ProductQuery.PrintFuzzySearchResults(results);
+                ConsoleHelper.PrintFuzzySearchResults(results);
             else
                 Console.WriteLine("No match found");
 

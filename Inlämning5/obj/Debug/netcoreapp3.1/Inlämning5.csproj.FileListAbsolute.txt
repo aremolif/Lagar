@@ -25,6 +25,7 @@ D:\source\repos\Inlämning5\Inlämning5\bin\Debug\netcoreapp3.1\MongoDB.Libmongo
 D:\source\repos\Inlämning5\Inlämning5\bin\Debug\netcoreapp3.1\Nancy.dll
 D:\source\repos\Inlämning5\Inlämning5\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 D:\source\repos\Inlämning5\Inlämning5\bin\Debug\netcoreapp3.1\SharpCompress.dll
+D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.csprojAssemblyReference.cache
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.AssemblyInfoInputs.cache
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.AssemblyInfo.cs
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.csproj.CoreCompileInputs.cache
@@ -32,4 +33,3 @@ D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.cspr
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.dll
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.pdb
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.genruntimeconfig.cache
-D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.csprojAssemblyReference.cache

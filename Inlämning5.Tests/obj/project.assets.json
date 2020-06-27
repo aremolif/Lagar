@@ -7796,11 +7796,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\source\\repos\\Inlämning5\\Inlämning5UnitTests\\Inlämning5.Tests.csproj",
+      "projectUniqueName": "D:\\source\\repos\\Inlämning5\\Inlämning5.Tests\\Inlämning5.Tests.csproj",
       "projectName": "Inlämning5.Tests",
-      "projectPath": "D:\\source\\repos\\Inlämning5\\Inlämning5UnitTests\\Inlämning5.Tests.csproj",
+      "projectPath": "D:\\source\\repos\\Inlämning5\\Inlämning5.Tests\\Inlämning5.Tests.csproj",
       "packagesPath": "C:\\Users\\Anna\\.nuget\\packages\\",
-      "outputPath": "D:\\source\\repos\\Inlämning5\\Inlämning5UnitTests\\obj\\",
+      "outputPath": "D:\\source\\repos\\Inlämning5\\Inlämning5.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Anna\\AppData\\Roaming\\NuGet\\NuGet.Config",

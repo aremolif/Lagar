@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZOIbWjO5qtETMqaHpLDWXop5+Z8WwCVvRBRa4ixQguhOAyaXc2wCaMd1aaUh3PcvdEHW5yJeCDw4PyLIUWAohg==",
+  "dgSpecHash": "a6dbvV6pvlhcTOjkDwOE3T3mMkZs6lObdjjlnqgZuj46yCQiogCeXOD+LfgoHBsgdBFSwKKkpOBh/DSuGLSnMw==",
   "success": true,
-  "projectFilePath": "D:\\source\\repos\\Inlämning5\\Inlämning5UnitTests\\Inlämning5.Tests.csproj",
+  "projectFilePath": "D:\\source\\repos\\Inlämning5\\Inlämning5.Tests\\Inlämning5.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Anna\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\Anna\\.nuget\\packages\\coverlet.collector\\1.2.0\\coverlet.collector.1.2.0.nupkg.sha512",
