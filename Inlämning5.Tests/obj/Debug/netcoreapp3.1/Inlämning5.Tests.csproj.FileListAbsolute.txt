@@ -130,6 +130,7 @@ D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Inlämning
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Castle.Core.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\CsvHelper.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\DnsClient.dll
+D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\FluentAssertions.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
@@ -159,6 +160,8 @@ D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Nancy.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\SharpCompress.dll
+D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\xunit.abstractions.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\xunit.assert.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\xunit.core.dll
@@ -228,6 +231,7 @@ D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\zh-Hans\Mi
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Inlämning5.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Inlämning5.pdb
 D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.csprojAssemblyReference.cache

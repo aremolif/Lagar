@@ -35,28 +35,24 @@ namespace Inlämning5.Classes.Filters
                     else
                     {
                         if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var newShop=UpdateShopCollection(butikName);
-                            newProduct.AddShop(newShop);
-                        }
+                            UpdateCollections(newProduct, butikName);
+                        
                     }
                 }
                 ProductRepository.Insert(newProduct);
             }
         }
-        public Butik UpdateShopCollection(string shopName)
+
+        private void UpdateCollections(Produkt newProduct, string butikName)
         {
-            var newShop = new Butik(shopName);
-            if (!ProductQuery.SearchShopByName(shopName).Any())  //negozio non ancora censito
+            var newShop = new Butik();
+            if (!ProductQuery.SearchShopByName(butikName).Any())
             {
-
-                ShopRepository.Insert(newShop);
-
+                newShop = ProductQuery.UpdateShopCollection(butikName);
             }
-            newShop.Id = ProductQuery.SearchShopByName(shopName).First().Id;
-            return newShop;
-            
+            newProduct.AddShop(newShop);
         }
+
         public void UpdateProductName()
         {
             ConsoleHelper.PrintList("Current product list", ProductRepository.GetAll().Select(p => p.Name));

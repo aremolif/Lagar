@@ -32,4 +32,3 @@ D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.cspr
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.dll
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.pdb
 D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.genruntimeconfig.cache
-D:\source\repos\Inlämning5\Inlämning5\obj\Debug\netcoreapp3.1\Inlämning5.csprojAssemblyReference.cache

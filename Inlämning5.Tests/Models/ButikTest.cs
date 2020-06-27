@@ -6,5 +6,7 @@ namespace Inlämning5.Tests.Models
 {
     class ButikTest
     {
+        
+
     }
 }

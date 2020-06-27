@@ -7,8 +7,8 @@ namespace Inlämning5.Tests
 {
     public class FakeShopsRepository : IButikRepository
     {
-        private IEnumerable<Butik> shopsList;
-        public FakeShopsRepository(IEnumerable<Butik> shops)
+        private List<Butik> shopsList;
+        public FakeShopsRepository(List<Butik> shops)
         {
             shopsList = shops;
         }
@@ -28,9 +28,9 @@ namespace Inlämning5.Tests
             throw new NotImplementedException();
         }
 
-        public void Insert(Butik item)
+        public void Insert(Butik shop)
         {
-            throw new NotImplementedException();
+            shopsList.Add(shop); ;
         }
 
         public void Save()

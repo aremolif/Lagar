@@ -28,11 +28,12 @@ namespace Inlämning5.Classes
                 }
         }
         
+
         public Butik(string name) 
         {
             Name = name;
         }
-
+        public Butik() { }
         public override string ToString()
         {
             return $"Name: {Name}";

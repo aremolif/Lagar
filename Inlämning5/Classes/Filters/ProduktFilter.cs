@@ -15,8 +15,14 @@ namespace Inlämning5.Classes
             ProductRepository = productRepository;
             ShopRepository = shopRepository;
         }
-        
 
+        public Butik UpdateShopCollection(string shopName)
+        {
+            var newShop = new Butik();
+            ShopRepository.Insert(newShop);
+            newShop.Id = SearchShopByName(shopName).First().Id;
+            return newShop;
+        }
         public IEnumerable<Produkt> SearchByPrice(decimal maxPrice)
         {
             return ProductRepository.GetAll().Where(s => s.Price < maxPrice).OrderByDescending(p => p.Price).Take(10);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
 using Inlämning5.Classes;
 using Inlämning5.Tests;
 using Xunit;
@@ -27,7 +28,7 @@ namespace Inlämning5.Tests
             };
             return products;
         }
-        IEnumerable<Butik> CreateTestShops()
+        List<Butik> CreateTestShops()
         {
             List<Butik> shops = new List<Butik>() {
                 new Butik("Stockholm"){ Id = "1"},
@@ -43,11 +44,11 @@ namespace Inlämning5.Tests
             var shopsRepo = new FakeShopsRepository(CreateTestShops());
             return new ProduktFilter(productsRepo, shopsRepo);
         }
-        
+
         [Fact]
         public void SearchByPriceShouldReturnAnEmptyListOfPoductsFilteredByPriceWhenNoMatchesAreFound()
         {
-            
+
             var _cut = CreateProduktFilter();
 
             var maxPrice = 100;
@@ -63,7 +64,7 @@ namespace Inlämning5.Tests
             var actualProduct = _cut.SearchProductByName(productName);
 
             Assert.Equal("2", actualProduct.First().Id);
-            Assert.Equal("Radio",actualProduct.First().Name);
+            Assert.Equal("Radio", actualProduct.First().Name);
             Assert.Equal(250, actualProduct.First().Price);
 
 
@@ -100,7 +101,19 @@ namespace Inlämning5.Tests
 
         }
         [Fact]
-        
+        public void UpdateShopCollectionShouldNotUpdateShopsListWhenShopAlreadyRegistered()
+        {
+            var _cut = CreateProduktFilter();
+            var shopName = "Uddevalla";
+            
+            var actualAddedShop = _cut.UpdateShopCollection(shopName);
+
+            Assert.NotNull(actualAddedShop);
+            
+
+        }
+
 
     }
+    
 }
