@@ -133,7 +133,7 @@ namespace Inlämning5.Classes.Filters
             if (matchedProducts.Any())
             {
                 foreach (var p in matchedProducts)
-                    ConsoleHelper.PrintButiker(ProductQuery.ListShopsWithProduct(p));
+                    ConsoleHelper.PrintButiker(ProductQuery.GetShopsWithProduct(p));
             }
             else
                 Console.WriteLine($"  >Product {productToCheck} not found"); ;

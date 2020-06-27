@@ -93,9 +93,14 @@ namespace Inlämning5.Tests
         public void SearchShopByNameShouldReturnAnEmptyListWhenNoMatchesAreFound()
         {
             var _cut = CreateProduktFilter();
-            
+            var shopName = "Uddevalla";
+            var actualShop = _cut.SearchShopByName(shopName);
+
+            Assert.False(actualShop.Any());
 
         }
+        [Fact]
+        
 
     }
 }

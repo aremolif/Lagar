@@ -35,7 +35,7 @@ namespace Inlämning5.Classes
         {
             return ProductRepository.GetAll();
         }
-        public IEnumerable<Butik> ListShopsWithProduct(Produkt product)
+        public IEnumerable<Butik> GetShopsWithProduct(Produkt product)
         {
             return product.Butik;
         }

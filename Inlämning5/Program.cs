@@ -13,13 +13,8 @@ namespace Inlämning5
         {
             var menuHelper = new MenuHandler();
             var jsonPath = menuHelper.SetPath("Produkter.json");
-            if (File.Exists(jsonPath))
-            {
-                menuHelper.RunMenu();
-                
-            } 
-            else
-                Console.WriteLine("Input file not found");
+            menuHelper.RunMenu();
+            
         }
         
     }
