@@ -7,18 +7,19 @@ namespace Inlämning5.Classes
 {
     public class Product
     {
+        [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         private  string _name;
         private decimal _price;
                
-        public Manufacture Tillverkare { get; set; }
-        public ICollection<Shop> Butik { get; set; }
-
+        public Manufacturer Manufacturer { get; set; }
+        public ICollection<Shop> Shops { get; set; }
+        
         public Product()  
         {
-            this.Tillverkare = new Manufacture();
-            this.Butik = new List<Shop>();
+            this.Manufacturer = new Manufacturer();
+            this.Shops = new List<Shop>();
         }
         
         public string Name
@@ -47,13 +48,14 @@ namespace Inlämning5.Classes
                 _price = value; } }
         public void AddShop(Shop shop)
         {
-            Butik.Add(shop);   
+            Shops.Add(shop);   
         }
         public void RemoveShop(Shop shop)
         {
-            Butik.Remove(shop);
+            Shops.Remove(shop);
         }
+        
 
-        public override string ToString() => $"Name: {Name} Price: {Price} Tillverkare: {Tillverkare.Name} ";
+        public override string ToString() => $"Name: {Name} Price: {Price} Tillverkare: {Manufacturer.Name} ";
     }
 }

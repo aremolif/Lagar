@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
-using Inlämning5.Classes.Models;
+
 
 namespace Inlämning5.Classes
 {
@@ -31,14 +31,15 @@ namespace Inlämning5.Classes
             Console.WriteLine("Please enter Price (,): ");
             var price = decimal.Parse(Console.ReadLine());
 
-            Console.WriteLine("Please enter Manufacturer id : ");
-            var mID = int.Parse(Console.ReadLine());
-            Manufacture manufacturer = TillverkareService.GetManufacturer(mID);
+            Console.WriteLine("Please enter manufacturer name: ");
+            
+            var manufacturer = new Manufacturer() { Name = Console.ReadLine()};
+            
             
             Product product = new Product()
             {
                 Name = name,
-                Tillverkare = manufacturer,
+                Manufacturer = manufacturer,
                 Price = price
             };
             return product;
@@ -60,23 +61,16 @@ namespace Inlämning5.Classes
             foreach (var p in stockList)
             {
                 Console.WriteLine(p);
-                foreach (var b in p.Butik)
+                foreach (var b in p.Shops)
                     Console.WriteLine($"  >{b.Name}");
             }
             Console.WriteLine("-----");
         }
-        public static void PrintButiker(IEnumerable<Shop> shopList)
-        {
-            Console.WriteLine($"Product availability:");
-            foreach (var butik in shopList)
-            {
-                Console.WriteLine($"  >{butik.Name}");
-            }
-        }
-        public static void PrintShopsWithProduct(Product product)
+        
+        public static void PrintShopsWithinProduct(Product product)
         {
             Console.WriteLine("Current availability");
-            foreach (var butik in product.Butik)
+            foreach (var butik in product.Shops)
                 Console.WriteLine($"  >{butik.Name}"); ;
         }
         public static void PrintList<T>(string header, IEnumerable<T> items)
@@ -93,6 +87,10 @@ namespace Inlämning5.Classes
             foreach (var s in searchResults)
                 Console.WriteLine($">  {s.MatchedName}");
 
+        }
+        public static IEnumerable<Shop> GetShopsWithinProduct(Product product)
+        {
+            return product.Shops;
         }
     }
     

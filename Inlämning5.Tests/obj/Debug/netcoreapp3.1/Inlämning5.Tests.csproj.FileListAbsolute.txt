@@ -117,6 +117,10 @@ D:\source\repos\Inlämning5\Inlämning5UnitTests\obj\Debug\netcoreapp3.1\Inlämn
 D:\source\repos\Inlämning5\Inlämning5UnitTests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.pdb
 D:\source\repos\Inlämning5\Inlämning5UnitTests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.genruntimeconfig.cache
 D:\source\repos\Inlämning5\Inlämning5UnitTests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.csproj.CoreCompileInputs.cache
+D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.AssemblyInfoInputs.cache
+D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.AssemblyInfo.cs
+D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.csproj.CoreCompileInputs.cache
+D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.csprojAssemblyReference.cache
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Inlämning5.exe
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\xunit.runner.reporters.netcoreapp10.dll
@@ -234,10 +238,6 @@ D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\zh-Hant\Mi
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Inlämning5.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\bin\Debug\netcoreapp3.1\Inlämning5.pdb
-D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.csprojAssemblyReference.cache
-D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.AssemblyInfoInputs.cache
-D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.AssemblyInfo.cs
-D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.csproj.CoreCompileInputs.cache
 D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.csproj.CopyComplete
 D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.dll
 D:\source\repos\Inlämning5\Inlämning5.Tests\obj\Debug\netcoreapp3.1\Inlämning5.Tests.pdb

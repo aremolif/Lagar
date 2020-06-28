@@ -11,10 +11,8 @@ namespace Inlämning5
     {
         static void Main(string[] args)
         {
-            var menuHelper = new MenuHandler();
-            var jsonPath = menuHelper.SetPath("Produkter.json");
-            menuHelper.RunMenu();
-            
+            var menuHandler = new MenuHandler();
+            menuHandler.RunMenu();
         }
         
     }

@@ -11,8 +11,6 @@ namespace Inlämning5.Classes
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         private string _name;
-        
-        
         public string Name { 
                 get
             { return _name; }
@@ -27,8 +25,6 @@ namespace Inlämning5.Classes
                 _name = value;
                 }
         }
-        
-
         public Shop(string name) 
         {
             Name = name;

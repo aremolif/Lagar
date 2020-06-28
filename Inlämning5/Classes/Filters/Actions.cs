@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MongoDB.Bson;
 using Nancy.ViewEngines;
 
 namespace Inlämning5.Classes.Filters
 {
     public class Actions
     {
-        //private IProduktRepository ProductRepository { get; }
-        //private IButikRepository ShopRepository { get; }
-        private ProduktFilter ProductQuery { get; }
-        public Actions(ProduktFilter productQuery)
+        private ProductFilters ProductQuery { get; }
+        public Actions(ProductFilters productQuery)
         {
             ProductQuery = productQuery;
         }
@@ -28,7 +27,7 @@ namespace Inlämning5.Classes.Filters
                 while (true)
                 {
                     var butikName = Console.ReadLine();
-                    if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (newProduct.Butik.Count > 0))
+                    if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (newProduct.Shops.Count > 0))
                         break;
                     else
                     {
@@ -46,18 +45,19 @@ namespace Inlämning5.Classes.Filters
             ConsoleHelper.PrintList("Products", ProductQuery.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert current product name:");
             var productName = Console.ReadLine();
-            var matches = ProductQuery.SearchProductByName(productName);
-            if (matches.Any())
+            try
             {
-                var productToUpdate = matches.First();
-                Console.WriteLine("Insert new product name:");
-                var newName = Console.ReadLine();
-                productToUpdate.Name = newName;
-                ProductQuery.UpdateExistingProductInCollection(productToUpdate);
+                var product = new Product();
+                product.Name = productName;
+                ProductQuery.UpdateProductName(product);
                 ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
+
             }
-            else
-                Console.WriteLine("  >Product not found");
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("  >Product not found"); ;
+            }
+         
         }
         public void UpdateProductPrice()
         {
@@ -70,12 +70,12 @@ namespace Inlämning5.Classes.Filters
                 product.Name = Name;
                 Console.WriteLine("Insert new product price:");
                 product.Price = int.Parse(Console.ReadLine()); ;
-                ProductQuery.UpdateExistingProductInCollection(product);
-
+                ProductQuery.UpdateProductPrice(product);
+                ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
             }
             catch (InvalidOperationException)
             {
-                Console.WriteLine("Product not found");;
+                Console.WriteLine("  >Product not found");;
             }
         }
         public void RemoveProduct()
@@ -132,8 +132,8 @@ namespace Inlämning5.Classes.Filters
 
             if (matchedProducts.Any())
             {
-                foreach (var p in matchedProducts)
-                    ConsoleHelper.PrintButiker(ProductQuery.GetShopsWithProduct(p));
+                foreach (var product in matchedProducts)
+                    ConsoleHelper.PrintShopsWithinProduct(product);
             }
             else
                 Console.WriteLine($"  >Product {productToCheck} not found"); ;
@@ -159,7 +159,7 @@ namespace Inlämning5.Classes.Filters
                 while (true)
                 {
                     var butikName = Console.ReadLine();
-                    if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Butik.Count > 0))
+                    if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Shops.Count > 0))
                         break;
                     else
                     {
@@ -200,8 +200,9 @@ namespace Inlämning5.Classes.Filters
                 Console.WriteLine("Product not found");
 
         }
+        
 
-       
+
     }
 
 }
