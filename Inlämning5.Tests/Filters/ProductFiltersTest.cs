@@ -24,6 +24,20 @@ namespace Inlämning5.Tests.Filters
                     Manufacturer= new Manufacturer(){ Name = "Philips"},
                     Shops = new List<Shop>() { new Shop("Göteborg"), new Shop("Stockholm") },
                     Price = 250
+                },
+                new Product(){
+                    Id = "3",
+                    Name = "GlasVåg",
+                    Manufacturer= new Manufacturer(){ Name = "Beurer"},
+                    Shops = new List<Shop>() { new Shop("Göteborg"), new Shop("Stockholm") },
+                    Price = 250
+                },
+                new Product(){
+                    Id = "4",
+                    Name = "Kokväg",
+                    Manufacturer= new Manufacturer(){ Name = "Tristar"},
+                    Shops = new List<Shop>() { new Shop("Göteborg"), new Shop("Stockholm") },
+                    Price = 250
                 }
             };
             return products;
@@ -31,8 +45,9 @@ namespace Inlämning5.Tests.Filters
         ProductFilters CreateProductFilters()
         {
             var productsRepo = new FakeProductsRepository(CreateTestProducts());
+            var distanceCounter = new SearchHandler();
             
-            return new ProductFilters(productsRepo);
+            return new ProductFilters(productsRepo, distanceCounter);
         }
         [Fact]
         public void SearchByPriceShouldReturnAnEmptyListOfPoductsFilteredByPriceWhenNoMatchesAreFound()
@@ -50,9 +65,29 @@ namespace Inlämning5.Tests.Filters
         {
             var _cut = CreateProductFilters();
             
-            var maxPrice = "-100";
+            var maxPrice1 = "-100";
+            var maxPrice2 = "maxPrice";
  
-            Assert.Throws<FormatException>(() => _cut.SearchByPrice(maxPrice));
+            Assert.Throws<FormatException>(() => _cut.SearchByPrice(maxPrice1));
+            Assert.Throws<FormatException>(() => _cut.SearchByPrice(maxPrice2));
+        }
+        [Fact]
+        public void SearchByNameLikelihoodShouldReturnAnEmptyListWhenDistanceIsLessThanCustomThreshold()
+        {
+            var _cut = CreateProductFilters();
+            var productName = "Stabmixer";
+            var actualListOfMatchedName = _cut.SearchByLikelihood(productName);
+            Assert.Empty(actualListOfMatchedName);
+
+        }
+        [Fact]
+        public void SearchByNameLikelihoodShouldReturnAListOfMatchedProductNamesWhenDistanceIsLessThanCustomThreshold()
+        {
+            var _cut = CreateProductFilters();
+            var productName = "våg";
+            var actualListOfMatchedName = _cut.SearchByLikelihood(productName);
+            Assert.Empty(actualListOfMatchedName);
+
         }
     }
 }

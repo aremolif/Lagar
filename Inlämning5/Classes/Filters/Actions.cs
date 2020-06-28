@@ -85,7 +85,6 @@ namespace Inlämning5.Classes.Filters
             }
 
         }
-        
         public void GetShopsListFromStock()
         {
             ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));

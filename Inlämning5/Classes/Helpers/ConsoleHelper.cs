@@ -28,7 +28,7 @@ namespace Inlämning5.Classes
         }
         public static Product CreateNewProduct(string name)
         {
-            Console.WriteLine("Please enter Price (,): ");
+            Console.WriteLine("Please enter price: ");
             var price = decimal.Parse(Console.ReadLine());
 
             Console.WriteLine("Please enter manufacturer name: ");

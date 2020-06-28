@@ -26,7 +26,8 @@ namespace Inlämning5.Classes
             IProduktRepository productRepo = new MongoDbProductsRepository(_collectionProducts);
             IButikRepository shopRepo = new MongoDbShopsRepository(_collectionShops);
             EntitiesHelper entitiesHelper = new EntitiesHelper(productRepo, shopRepo);
-            ProductFilters productQuery = new ProductFilters(productRepo);
+            SearchHandler distanceCounter = new SearchHandler();
+            ProductFilters productQuery = new ProductFilters(productRepo, distanceCounter);
 
             Actions action = new Actions(entitiesHelper);
             bool endloop = false;

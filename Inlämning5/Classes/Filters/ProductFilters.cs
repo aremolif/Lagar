@@ -8,10 +8,12 @@ namespace Inlämning5.Classes
     public class ProductFilters
     {
         private IProduktRepository ProductRepository { get; }
+        private SearchHandler DistanceCounter { get; }
 
-        public ProductFilters(IProduktRepository productRepository)
+        public ProductFilters(IProduktRepository productRepository, SearchHandler distanceCounter)
         {
             ProductRepository = productRepository;
+            DistanceCounter = distanceCounter;
 
         }
         public IEnumerable<Product> SearchByPrice(string price)
@@ -27,15 +29,17 @@ namespace Inlämning5.Classes
         public IEnumerable<SearchHandler> SearchByLikelihood(string searchString)
         {
             var products = ProductRepository.GetAll();
+            var num = products.Count();
             var distanceList = new List<SearchHandler>();
+            var customThreshold = 0.28;
             foreach (var p in products)
             {
-                var distanceCounter = new SearchHandler();
-                distanceCounter.Distance = distanceCounter.GetDistance(searchString, p.Name);
-                distanceCounter.MatchedName = p.Name;
-                distanceList.Add(distanceCounter);
+                
+                DistanceCounter.Distance = DistanceCounter.GetDistance(searchString, p.Name);
+                DistanceCounter.MatchedName = p.Name;
+                distanceList.Add(DistanceCounter);
             }
-            var searchResults = distanceList.Where(d => d.Distance > 0.28)
+            var searchResults = distanceList.Where(d => d.Distance > customThreshold)
                                             .OrderByDescending(x => x.Distance);
 
             return searchResults;
