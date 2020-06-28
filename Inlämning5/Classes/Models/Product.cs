@@ -5,20 +5,20 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Inlämning5.Classes
 {
-    public class Produkt
+    public class Product
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         private  string _name;
         private decimal _price;
                
-        public Tillverkare Tillverkare { get; set; }
-        public ICollection<Butik> Butik { get; set; }
+        public Manufacture Tillverkare { get; set; }
+        public ICollection<Shop> Butik { get; set; }
 
-        public Produkt()  
+        public Product()  
         {
-            this.Tillverkare = new Tillverkare();
-            this.Butik = new List<Butik>();
+            this.Tillverkare = new Manufacture();
+            this.Butik = new List<Shop>();
         }
         
         public string Name
@@ -45,11 +45,11 @@ namespace Inlämning5.Classes
                     throw new ArgumentNullException(nameof(Name));
                 }
                 _price = value; } }
-        public void AddShop(Butik shop)
+        public void AddShop(Shop shop)
         {
             Butik.Add(shop);   
         }
-        public void RemoveShop(Butik shop)
+        public void RemoveShop(Shop shop)
         {
             Butik.Remove(shop);
         }

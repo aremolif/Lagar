@@ -10,31 +10,31 @@ namespace Inlämning5.Tests
 {
     public class ProduktFilterTest
     {
-        IEnumerable<Produkt> CreateTestProducts()
+        IEnumerable<Product> CreateTestProducts()
         {
-            List<Produkt> products = new List<Produkt>() {
-                new Produkt(){
+            List<Product> products = new List<Product>() {
+                new Product(){
                     Id = "1",
                     Name = "Mixer",
-                    Butik = new List<Butik>() { new Butik("Stockholm"), new Butik("Orust"), new Butik("Malmö") },
+                    Butik = new List<Shop>() { new Shop("Stockholm"), new Shop("Orust"), new Shop("Malmö") },
                     Price = 390
                 },
-                new Produkt(){
+                new Product(){
                     Id = "2",
                     Name = "Radio",
-                    Butik = new List<Butik>() { new Butik("Göteborg"), new Butik("Stockholm") },
+                    Butik = new List<Shop>() { new Shop("Göteborg"), new Shop("Stockholm") },
                     Price = 250
                 }
             };
             return products;
         }
-        List<Butik> CreateTestShops()
+        List<Shop> CreateTestShops()
         {
-            List<Butik> shops = new List<Butik>() {
-                new Butik("Stockholm"){ Id = "1"},
-                new Butik("Malmö"){ Id = "2"},
-                new Butik("Göteborg"){ Id = "3"},
-                new Butik("Orust"){ Id = "4"}
+            List<Shop> shops = new List<Shop>() {
+                new Shop("Stockholm"){ Id = "1"},
+                new Shop("Malmö"){ Id = "2"},
+                new Shop("Göteborg"){ Id = "3"},
+                new Shop("Orust"){ Id = "4"}
             };
             return shops;
         }
@@ -106,14 +106,32 @@ namespace Inlämning5.Tests
             var _cut = CreateProduktFilter();
             var shopName = "Uddevalla";
             
-            var actualAddedShop = _cut.UpdateShopCollection(shopName);
+            var actualAddedShop = _cut.AddShopToCollection(shopName);
 
             Assert.NotNull(actualAddedShop);
             
 
         }
+        [Fact]
+        public void UpdateExistingProductShouldThrowAnInvalidOperationExceptionWhenProductIsNotFound()
+        {
+            var _cut = CreateProduktFilter();
+            var productToUpdate = new Product()
+            {
+                Id = "90",
+                Name = "Kaffekvarn",
+                Butik = new List<Shop>() { new Shop("Stockholm") },
+                Price = 390
+            };
+            
+            Assert.Throws<InvalidOperationException>(()=>_cut.UpdateExistingProductInCollection(productToUpdate));
 
 
+                
+        }
     }
+
+
+    
     
 }

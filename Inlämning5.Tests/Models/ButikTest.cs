@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xunit;
 
 namespace Inlämning5.Tests.Models
 {
-    class ButikTest
+    public class ButikTest
     {
-        
+        //[Fact]
+
+
 
     }
 }

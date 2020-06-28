@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Inlämning5.Classes
 {
-    public class Butik
+    public class Shop
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
@@ -29,11 +29,11 @@ namespace Inlämning5.Classes
         }
         
 
-        public Butik(string name) 
+        public Shop(string name) 
         {
             Name = name;
         }
-        public Butik() { }
+        public Shop() { }
         public override string ToString()
         {
             return $"Name: {Name}";

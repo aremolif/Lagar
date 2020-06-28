@@ -6,7 +6,7 @@ using CsvHelper.Configuration.Attributes;
 
 namespace Inlämning5.Classes
 {
-    public class Tillverkare
+    public class Manufacture
     {
         private string _name;
         public string Name

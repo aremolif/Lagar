@@ -7,36 +7,36 @@ namespace Inlämning5.Classes.Repositories
 {
     public class MongoDbButikRepository : IButikRepository
     {
-        private IMongoCollection<Butik> _collection;
+        private IMongoCollection<Shop> _collection;
 
-        public MongoDbButikRepository(IMongoCollection<Butik> collection)
+        public MongoDbButikRepository(IMongoCollection<Shop> collection)
         {
             _collection = collection;
         }
 
-        public IEnumerable<Butik> GetAll()
+        public IEnumerable<Shop> GetAll()
         {
-            var all = _collection.Find(Builders<Butik>.Filter.Empty);
+            var all = _collection.Find(Builders<Shop>.Filter.Empty);
             return all.ToEnumerable();
         }
 
-        public Butik GetById(string id)
+        public Shop GetById(string id)
         {
-            return _collection.Find(Builders<Butik>.Filter.Eq(x => x.Id, id)).FirstOrDefault();
+            return _collection.Find(Builders<Shop>.Filter.Eq(x => x.Id, id)).FirstOrDefault();
         }
 
-        public void Delete(Butik shop)
+        public void Delete(Shop shop)
         {
             //Builders<Product>.Filter.Eq(x => x.Id, id)
             _collection.DeleteOne(s => s.Id == shop.Id);
         }
 
-        public void Insert(Butik shop)
+        public void Insert(Shop shop)
         {
             _collection.InsertOne(shop);
         }
 
-        public void Update(Butik shop)
+        public void Update(Shop shop)
         {
             _collection.ReplaceOne(p => p.Id == shop.Id, shop);
         }

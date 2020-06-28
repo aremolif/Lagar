@@ -26,15 +26,15 @@ namespace Inlämning5.Classes
                                 
                 var _client = new MongoClient(mongoConnectionString);
                 var _database = _client.GetDatabase("Warehouse");
-                var _collectionProducts = _database.GetCollection<Produkt>("Products");
-                var _collectionShops = _database.GetCollection<Butik>("Shops");
+                var _collectionProducts = _database.GetCollection<Product>("Products");
+                var _collectionShops = _database.GetCollection<Shop>("Shops");
 
 
                 IProduktRepository productRepo = new MongoDbProduktRepository(_collectionProducts);
                 IButikRepository shopRepo = new MongoDbButikRepository(_collectionShops);
                 ProduktFilter produktQuery = new ProduktFilter(productRepo, shopRepo);
 
-                Actions action = new Actions(productRepo,shopRepo,produktQuery);
+                Actions action = new Actions(produktQuery);
                 bool endloop = false;
                 while (!endloop)
                 {
@@ -42,14 +42,14 @@ namespace Inlämning5.Classes
                     try
                     {
                         int choice = int.Parse(Console.ReadLine());
-                        var product = new Produkt();
+                        var product = new Product();
                         switch (choice)
                         {
                             case 1:
                                 Console.Clear();
                                 action.AddNewProduct();
                                 break;
-                            case 2:  //ok
+                            case 2:  
                                 Console.Clear();
                                 action.UpdateProductName();
                                 break;
@@ -75,7 +75,7 @@ namespace Inlämning5.Classes
                                 break;
                             case 8:
                                 Console.Clear();
-                                action.ListShopFromStock();
+                                action.GetShopsListFromStock();
                                 break;
                             case 9:
                                 Console.Clear();
@@ -89,7 +89,7 @@ namespace Inlämning5.Classes
                                 produktQuery.GetManufacturersInventory();
                                 break;
                             case 12:  
-                                ConsoleHelper.PrintProductsList(produktQuery.SearchAllStock());
+                                ConsoleHelper.PrintProductsList(produktQuery.GetAllStock());
                                 break;
                             case 0:
                                 endloop = true;

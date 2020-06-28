@@ -9,38 +9,37 @@ namespace Inlämning5.Classes.Repositories
     public class MongoDbProduktRepository : IProduktRepository
     {
         
-        private IMongoCollection<Produkt> _collection;
+        private IMongoCollection<Product> _collection;
 
-        public MongoDbProduktRepository(IMongoCollection<Produkt> collection)
+        public MongoDbProduktRepository(IMongoCollection<Product> collection)
         {
             _collection = collection;
         }
 
-        public IEnumerable<Produkt> GetAll()
+        public IEnumerable<Product> GetAll()
         {
-            var all = _collection.Find(Builders<Produkt>.Filter.Empty);
+            var all = _collection.Find(Builders<Product>.Filter.Empty);
             return all.ToEnumerable();
         }
 
-        public Produkt GetById(string id)
+        public Product GetById(string id)
         {
-            return _collection.Find(Builders<Produkt>.Filter.Eq(x => x.Id, id)).FirstOrDefault();
+            return _collection.Find(Builders<Product>.Filter.Eq(x => x.Id, id)).FirstOrDefault();
         }
 
-        public void Delete(Produkt product)
+        public void Delete(Product product)
         {
             //Builders<Product>.Filter.Eq(x => x.Id, id)
             _collection.DeleteOne(s => s.Id == product.Id);
         }
 
-        public void Insert(Produkt product)
+        public void Insert(Product product)
         {
             _collection.InsertOne(product);
         }
 
-        public void Update(Produkt product)
+        public void Update(Product product)
         {
-            Console.WriteLine($"Id da cercare: {product.Id}");
             _collection.ReplaceOne(p => p.Id == product.Id, product);
         }
 

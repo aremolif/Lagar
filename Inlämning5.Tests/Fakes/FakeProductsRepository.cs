@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Inlämning5.Classes;
 using MongoDB.Driver;
 
@@ -7,27 +8,27 @@ namespace Inlämning5.Tests
 {
     public class FakeProductsRepository : IProduktRepository
     {
-        private IEnumerable<Produkt> productsList;
+        private IEnumerable<Product> productsList;
 
        
 
-        public FakeProductsRepository(IEnumerable<Produkt> products)
+        public FakeProductsRepository(IEnumerable<Product> products)
         {
             productsList = products;
         }
         
 
-        public IEnumerable<Produkt> GetAll()
+        public IEnumerable<Product> GetAll()
         {
             return productsList;
         }
 
-        public Produkt GetById(string id)
+        public Product GetById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(Produkt item)
+        public void Insert(Product item)
         {
             throw new NotImplementedException();
         }
@@ -37,11 +38,11 @@ namespace Inlämning5.Tests
             throw new NotImplementedException();
         }
 
-        public void Update(Produkt item)
+        public void Update(Product product)
         {
             throw new NotImplementedException();
         }
-        public void Delete(Produkt item)
+        public void Delete(Product item)
         {
             throw new NotImplementedException();
         }

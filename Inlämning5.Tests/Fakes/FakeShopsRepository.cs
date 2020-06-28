@@ -7,28 +7,28 @@ namespace Inlämning5.Tests
 {
     public class FakeShopsRepository : IButikRepository
     {
-        private List<Butik> shopsList;
-        public FakeShopsRepository(List<Butik> shops)
+        private List<Shop> shopsList;
+        public FakeShopsRepository(List<Shop> shops)
         {
             shopsList = shops;
         }
 
-        public void Delete(Butik item)
+        public void Delete(Shop item)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Butik> GetAll()
+        public IEnumerable<Shop> GetAll()
         {
             return shopsList;
         }
 
-        public Butik GetById(string id)
+        public Shop GetById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(Butik shop)
+        public void Insert(Shop shop)
         {
             shopsList.Add(shop); ;
         }
@@ -38,7 +38,7 @@ namespace Inlämning5.Tests
             throw new NotImplementedException();
         }
 
-        public void Update(Butik item)
+        public void Update(Shop item)
         {
             throw new NotImplementedException();
         }

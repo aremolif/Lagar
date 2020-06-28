@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Inlämning5.Classes
 {
-    public interface IButikRepository : IRepository<Butik>
+    public interface IButikRepository : IRepository<Shop>
     {
     }
 

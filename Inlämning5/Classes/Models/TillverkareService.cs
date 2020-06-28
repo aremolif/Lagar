@@ -6,25 +6,25 @@ namespace Inlämning5.Classes.Models
 {
     public class TillverkareService
     {
-        private static List<Tillverkare> _manufacturers = new List<Tillverkare>()
+        private static List<Manufacture> _manufacturers = new List<Manufacture>()
         {
-            new Tillverkare() {Name = "LG"}, 
-            new Tillverkare() {Name = "Philips"},
-            new Tillverkare() {Name = "Dell"}, 
-            new Tillverkare() {Name = "Sony"},
-            new Tillverkare() {Name = "Electrolux" },
-            new Tillverkare() {Name = "Huawei"},
-            new Tillverkare() {Name = "Dyson"},
-            new Tillverkare() {Name = "Wilfa"},
-            new Tillverkare() {Name = "DeLonghi"},
-            new Tillverkare() {Name = "Beurer"},
-            new Tillverkare() {Name = "Tristar"},
-            new Tillverkare() {Name = "Russell Hobbs"},
-            new Tillverkare() {Name = "GoPro"},
-            new Tillverkare() {Name = "Lenovo"}
+            new Manufacture() {Name = "LG"}, 
+            new Manufacture() {Name = "Philips"},
+            new Manufacture() {Name = "Dell"}, 
+            new Manufacture() {Name = "Sony"},
+            new Manufacture() {Name = "Electrolux" },
+            new Manufacture() {Name = "Huawei"},
+            new Manufacture() {Name = "Dyson"},
+            new Manufacture() {Name = "Wilfa"},
+            new Manufacture() {Name = "DeLonghi"},
+            new Manufacture() {Name = "Beurer"},
+            new Manufacture() {Name = "Tristar"},
+            new Manufacture() {Name = "Russell Hobbs"},
+            new Manufacture() {Name = "GoPro"},
+            new Manufacture() {Name = "Lenovo"}
         };
 
-        public static Tillverkare GetManufacturer(int id)
+        public static Manufacture GetManufacturer(int id)
         {
             return _manufacturers[id];
         }

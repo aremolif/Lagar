@@ -26,16 +26,16 @@ namespace Inlämning5.Classes
             Console.WriteLine(" 12. List the whole stock");
             Console.WriteLine(" 0.  Exit the program");
         }
-        public static Produkt CreateNewProduct(string name)
+        public static Product CreateNewProduct(string name)
         {
             Console.WriteLine("Please enter Price (,): ");
             var price = decimal.Parse(Console.ReadLine());
 
             Console.WriteLine("Please enter Manufacturer id : ");
             var mID = int.Parse(Console.ReadLine());
-            Tillverkare manufacturer = TillverkareService.GetManufacturer(mID);
+            Manufacture manufacturer = TillverkareService.GetManufacturer(mID);
             
-            Produkt product = new Produkt()
+            Product product = new Product()
             {
                 Name = name,
                 Tillverkare = manufacturer,
@@ -43,7 +43,7 @@ namespace Inlämning5.Classes
             };
             return product;
         }
-        public static void PrintProductFilteredByPrice(decimal maxPrice, IEnumerable<Produkt> FilteredProdukt)
+        public static void PrintProductFilteredByPrice(decimal maxPrice, IEnumerable<Product> FilteredProdukt)
         {
             if (!FilteredProdukt.Any())
                 Console.WriteLine($"No products found with price less than {maxPrice}");
@@ -55,7 +55,7 @@ namespace Inlämning5.Classes
                 Console.WriteLine("-----");
             }
         }
-        public static void PrintProductsList(IEnumerable<Produkt> stockList)
+        public static void PrintProductsList(IEnumerable<Product> stockList)
         {
             foreach (var p in stockList)
             {
@@ -65,7 +65,7 @@ namespace Inlämning5.Classes
             }
             Console.WriteLine("-----");
         }
-        public static void PrintButiker(IEnumerable<Butik> shopList)
+        public static void PrintButiker(IEnumerable<Shop> shopList)
         {
             Console.WriteLine($"Product availability:");
             foreach (var butik in shopList)
@@ -73,7 +73,7 @@ namespace Inlämning5.Classes
                 Console.WriteLine($"  >{butik.Name}");
             }
         }
-        public static void PrintShopsWithProduct(Produkt product)
+        public static void PrintShopsWithProduct(Product product)
         {
             Console.WriteLine("Current availability");
             foreach (var butik in product.Butik)

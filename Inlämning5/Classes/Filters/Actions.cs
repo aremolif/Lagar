@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Nancy.ViewEngines;
 
 namespace Inlämning5.Classes.Filters
 {
     public class Actions
     {
-        private IProduktRepository ProductRepository { get; }
-        private IButikRepository ShopRepository { get; }
+        //private IProduktRepository ProductRepository { get; }
+        //private IButikRepository ShopRepository { get; }
         private ProduktFilter ProductQuery { get; }
-        public Actions(IProduktRepository productRepository, IButikRepository shopRepository, ProduktFilter productQuery)
+        public Actions(ProduktFilter productQuery)
         {
-            ProductRepository = productRepository;
-            ShopRepository = shopRepository;
             ProductQuery = productQuery;
         }
-        
         public void AddNewProduct()
         {
             Console.WriteLine("Insert product name:");
@@ -35,16 +33,17 @@ namespace Inlämning5.Classes.Filters
                     else
                     {
                         if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                            ProductQuery.UpdateCollections(newProduct, butikName);
+                            ProductQuery.UpdateProductAvailability(newProduct, butikName);
                         
                     }
                 }
-                ProductRepository.Insert(newProduct);
+                ProductQuery.AddProductToCollection(newProduct);
+                
             }
         }
         public void UpdateProductName()
         {
-            ConsoleHelper.PrintList("Current product list", ProductRepository.GetAll().Select(p => p.Name));
+            ConsoleHelper.PrintList("Products", ProductQuery.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert current product name:");
             var productName = Console.ReadLine();
             var matches = ProductQuery.SearchProductByName(productName);
@@ -54,26 +53,46 @@ namespace Inlämning5.Classes.Filters
                 Console.WriteLine("Insert new product name:");
                 var newName = Console.ReadLine();
                 productToUpdate.Name = newName;
-                ProductRepository.Update(productToUpdate);
-                ConsoleHelper.PrintList("All products", ProductRepository.GetAll().Select(p => p.Name));
+                ProductQuery.UpdateExistingProductInCollection(productToUpdate);
+                ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
             }
             else
                 Console.WriteLine("  >Product not found");
         }
+        public void UpdateProductPrice()
+        {
+            ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
+            Console.WriteLine("Insert current product name:");
+            var Name = Console.ReadLine();
+            try
+            {
+                var product = new Product();
+                product.Name = Name;
+                Console.WriteLine("Insert new product price:");
+                product.Price = int.Parse(Console.ReadLine()); ;
+                ProductQuery.UpdateExistingProductInCollection(product);
+
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("Product not found");;
+            }
+        }
         public void RemoveProduct()
         {
-            ConsoleHelper.PrintList("Warehouse products", ProductRepository.GetAll().Select(p => p.Name));
+            ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert product name:");
             var productToDelete = Console.ReadLine();
-            var matches = ProductQuery.SearchProductByName(productToDelete);
-            if (matches.Any())
+            try
             {
-                ProductRepository.Delete(matches.First());
-                ConsoleHelper.PrintList("All products", ProductRepository.GetAll().Select(p => p.Name));
+                ProductQuery.RemoveProductFromCollection(productToDelete);
+                ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
             }
-            else
+            catch (ArgumentNullException)
+            {
                 Console.WriteLine("Product not found");
-            
+            }
+
         }
         public void GetMaxPriceToCompare()
         {
@@ -104,9 +123,9 @@ namespace Inlämning5.Classes.Filters
 
             ;
         }
-        public void ListShopFromStock()
+        public void GetShopsListFromStock()
         {
-            ConsoleHelper.PrintList("Warehouse products", ProductRepository.GetAll().Select(p => p.Name));
+            ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert product name");
             string productToCheck = Console.ReadLine();
             var matchedProducts = ProductQuery.SearchProductByName(productToCheck);
@@ -119,37 +138,16 @@ namespace Inlämning5.Classes.Filters
             else
                 Console.WriteLine($"  >Product {productToCheck} not found"); ;
         }
-        public void GetShopToRemove()  //toglie dai prodotti e dal negozio
+        public void GetShopToRemove()
         {
             Console.WriteLine("Insert shop name");
             string shopName = Console.ReadLine();
-            ProductQuery.RemoveShopFromStock(shopName);
+            ProductQuery.RemoveShopFromCollection(shopName);
 
-        }
-        
-        public void UpdateProductPrice()
-        {
-            ConsoleHelper.PrintList("Products in stock", ProductRepository.GetAll().Select(p => p.Name));
-            
-            Console.WriteLine("Insert current product name:");
-            var Name = Console.ReadLine();
-            var productToChange = ProductQuery.SearchProductByName(Name).First();
-
-            if (productToChange != null)
-            {
-                Console.WriteLine($"Current product price: {productToChange.Price}");
-                Console.WriteLine("Insert new product price:");
-                var newPrice = int.Parse(Console.ReadLine()); ;
-                productToChange.Price = newPrice;
-                ProductRepository.Update(productToChange);
-                Console.WriteLine($"price updated: {productToChange.Name} {productToChange.Price}");
-            }
-            else
-                Console.WriteLine("Product not found"); ;
         }
         public void AddShopAvailability()
         {
-            ConsoleHelper.PrintList("Current product list", ProductRepository.GetAll().Select(p => p.Name));
+            ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert product name");
             string productAvailable = Console.ReadLine();
             var matches = ProductQuery.SearchProductByName(productAvailable);
@@ -166,18 +164,18 @@ namespace Inlämning5.Classes.Filters
                     else
                     {
                         if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                            ProductQuery.UpdateCollections(product, butikName);
+                            ProductQuery.UpdateProductAvailability(product, butikName);
                           
                     }
                 }
-                ProductRepository.Update(product);
+                ProductQuery.UpdateExistingProductInCollection(product);
             }
             else
                 Console.WriteLine("Product not found"); ;
         }
         public void RemoveShopAvailability()
         {
-            ConsoleHelper.PrintList("Current product list", ProductRepository.GetAll().Select(p => p.Name));
+            ConsoleHelper.PrintList("Warehouse products", ProductQuery.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert product name");
             string productToUpdate = Console.ReadLine();
             var matches = ProductQuery.SearchProductByName(productToUpdate);
@@ -192,8 +190,8 @@ namespace Inlämning5.Classes.Filters
                 if (shopMatches.Any())
                 {
                     product.RemoveShop(shopMatches.First());
-                    ProductRepository.Update(product);
-                    //ConsoleHelper.PrintShopsWithProduct(product);
+                    ProductQuery.UpdateExistingProductInCollection(product);
+                    
                 }
                 else
                     Console.WriteLine("Shop not found");

@@ -7,7 +7,7 @@ namespace Inlämning5.Classes.Filters
     public interface IProduktFilter
     {
         void AddNewProduct();
-        Butik UpdateShopCollection(string shopName);
+        Shop UpdateShopCollection(string shopName);
         void UpdateProductName();
         void RemoveProduct();
         void SearchProductByPrice();
