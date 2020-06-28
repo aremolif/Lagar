@@ -35,24 +35,13 @@ namespace Inlämning5.Classes.Filters
                     else
                     {
                         if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                            UpdateCollections(newProduct, butikName);
+                            ProductQuery.UpdateCollections(newProduct, butikName);
                         
                     }
                 }
                 ProductRepository.Insert(newProduct);
             }
         }
-
-        private void UpdateCollections(Produkt newProduct, string butikName)
-        {
-            var newShop = new Butik();
-            if (!ProductQuery.SearchShopByName(butikName).Any())
-            {
-                newShop = ProductQuery.UpdateShopCollection(butikName);
-            }
-            newProduct.AddShop(newShop);
-        }
-
         public void UpdateProductName()
         {
             ConsoleHelper.PrintList("Current product list", ProductRepository.GetAll().Select(p => p.Name));
@@ -86,12 +75,8 @@ namespace Inlämning5.Classes.Filters
                 Console.WriteLine("Product not found");
             
         }
-        public void SearchProductByPrice()
+        public void GetMaxPriceToCompare()
         {
-            
-
-            //ConsoleHelper.PrintList("Warehouse products", query);
-            
             Console.WriteLine("Insert max price");
             try
             {
@@ -106,12 +91,12 @@ namespace Inlämning5.Classes.Filters
                 Console.WriteLine("Invalid input");
             }
         }
-        public void SearchProduct()
+        public void GetProductToSearch()
         {
             Console.WriteLine("Insert a product to search");
             var wordToSearch = Console.ReadLine();
-            var productsStock = ProductRepository.GetAll();
-            var results = ProductQuery.SearchByLikelihood(wordToSearch, productsStock);
+            
+            var results = ProductQuery.SearchByLikelihood(wordToSearch);
             if (results.Any())
                 ConsoleHelper.PrintFuzzySearchResults(results);
             else
@@ -134,25 +119,14 @@ namespace Inlämning5.Classes.Filters
             else
                 Console.WriteLine($"  >Product {productToCheck} not found"); ;
         }
-        public void RemoveShopFromStock()  //toglie dai prodotti e dal negozio
+        public void GetShopToRemove()  //toglie dai prodotti e dal negozio
         {
             Console.WriteLine("Insert shop name");
             string shopName = Console.ReadLine();
-            var shopToRemove = ProductQuery.SearchShopByName(shopName);
-            if(shopToRemove.Any())
-            {
-                ShopRepository.Delete(shopToRemove.First());
-            }
-            var productsList = ProductRepository.GetAll().ToList();
-            foreach (var product in productsList)
-            {
-
-                var matches = product.Butik.Where(b => b.Name == shopName);
-                if (matches.Any())
-                    product.RemoveShop(matches.First());
-            }
+            ProductQuery.RemoveShopFromStock(shopName);
 
         }
+        
         public void UpdateProductPrice()
         {
             ConsoleHelper.PrintList("Products in stock", ProductRepository.GetAll().Select(p => p.Name));
@@ -192,13 +166,8 @@ namespace Inlämning5.Classes.Filters
                     else
                     {
                         if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var newButik = new Butik(butikName);
-                            product.AddShop(newButik);  
-                            var butik = ProductQuery.SearchShopByName(butikName);
-                            if (!butik.Any())
-                                ShopRepository.Insert(newButik);
-                        }
+                            ProductQuery.UpdateCollections(product, butikName);
+                          
                     }
                 }
                 ProductRepository.Update(product);

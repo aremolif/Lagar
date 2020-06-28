@@ -22,6 +22,7 @@ namespace Inlämning5.Classes
             ShopRepository.Insert(newShop);
             newShop.Id = SearchShopByName(shopName).First().Id;
             return newShop;
+            
         }
         public IEnumerable<Produkt> SearchByPrice(decimal maxPrice)
         {
@@ -69,8 +70,25 @@ namespace Inlämning5.Classes
                 Console.WriteLine("{0,-20} {1, 10}", group.TillverkareName, group.ProductCount);
             Console.WriteLine("-----");
         }
-        public IEnumerable<SearchHandler> SearchByLikelihood(string searchString, IEnumerable<Produkt> products)
+        public void RemoveShopFromStock(string shopName)
         {
+            var shopToRemove = SearchShopByName(shopName);
+            if (shopToRemove.Any())
+            {
+                ShopRepository.Delete(shopToRemove.First());
+            }
+            var productsList = ProductRepository.GetAll().ToList();
+            foreach (var product in productsList)
+            {
+
+                var matches = product.Butik.Where(b => b.Name == shopName);
+                if (matches.Any())
+                    product.RemoveShop(matches.First());
+            }
+        }
+        public IEnumerable<SearchHandler> SearchByLikelihood(string searchString)
+        {
+            var products = ProductRepository.GetAll();
             var distanceList = new List<SearchHandler>();
             foreach (var p in products)
             {
@@ -84,6 +102,15 @@ namespace Inlämning5.Classes
 
             return searchResults;
         }
-        
+        public void UpdateCollections(Produkt newProduct, string butikName)
+        {
+            var newShop = new Butik();
+            if (!SearchShopByName(butikName).Any())
+            {
+                newShop = UpdateShopCollection(butikName);
+            }
+            newProduct.AddShop(newShop);
+        }
+
     }
 }

@@ -71,7 +71,7 @@ namespace Inlämning5.Classes
                                 break;
                             case 7:
                                 Console.Clear();
-                                action.RemoveShopFromStock();
+                                action.GetShopToRemove();
                                 break;
                             case 8:
                                 Console.Clear();
@@ -79,11 +79,11 @@ namespace Inlämning5.Classes
                                 break;
                             case 9:
                                 Console.Clear();
-                                action.SearchProduct();
+                                action.GetProductToSearch();
                                 break;
                             case 10:
                                 Console.Clear();
-                                action.SearchProductByPrice();
+                                action.GetMaxPriceToCompare();
                                 break;
                             case 11:
                                 produktQuery.GetManufacturersInventory();
