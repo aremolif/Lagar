@@ -44,17 +44,30 @@ namespace Inlämning5.Classes
             };
             return product;
         }
-        public static void PrintProductFilteredByPrice(decimal maxPrice, IEnumerable<Product> FilteredProdukt)
+        public static string GetProductName()
         {
-            if (!FilteredProdukt.Any())
-                Console.WriteLine($"No products found with price less than {maxPrice}");
-            else
+            Console.WriteLine("Insert product name:");
+            var productName = Console.ReadLine();
+            return productName;
+        }
+        public static decimal GetProductPrice()
+        {
+            Console.WriteLine("Insert new product price:");
+            var price = int.Parse(Console.ReadLine());
+            return price;
+        }
+        public static void PrintProductFilteredByPrice(IEnumerable<Product> filteredProducts)
+        {
+            if (filteredProducts.Any())
             {
                 Console.WriteLine($"\n{"Product",-20}  {"Price",10}");
-                foreach (var product in FilteredProdukt)
+                foreach (var product in filteredProducts)
                     Console.WriteLine($"{product.Name.PadRight(20)}  {product.Price,10}");
                 Console.WriteLine("-----");
             }
+            else
+                Console.WriteLine("  >No matches found");
+            
         }
         public static void PrintProductsList(IEnumerable<Product> stockList)
         {
@@ -66,7 +79,6 @@ namespace Inlämning5.Classes
             }
             Console.WriteLine("-----");
         }
-        
         public static void PrintShopsWithinProduct(Product product)
         {
             Console.WriteLine("Current availability");

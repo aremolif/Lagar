@@ -8,25 +8,21 @@ namespace Inlämning5.Classes
     public class ProductFilters
     {
         private IProduktRepository ProductRepository { get; }
-        private IButikRepository ShopRepository { get; }
-        public ProductFilters(IProduktRepository productRepository, IButikRepository shopRepository)
+
+        public ProductFilters(IProduktRepository productRepository)
         {
             ProductRepository = productRepository;
-            ShopRepository = shopRepository;
-        }
-        public IEnumerable<Product> SearchByPrice(decimal maxPrice)
-        {
-            return ProductRepository.GetAll().Where(s => s.Price < maxPrice).OrderByDescending(p => p.Price).Take(10);
 
         }
-        public IEnumerable<Product> SearchProductByName(string name)
+        public IEnumerable<Product> SearchByPrice(string price)
         {
-            return ProductRepository.GetAll().Where(p => p.Name.Equals(name));
+            var maxPrice = decimal.Parse(price);
+            if (maxPrice > 0)
+                return ProductRepository.GetAll().Where(s => s.Price < maxPrice).OrderByDescending(p => p.Price).Take(10);
 
-        }
-        public IEnumerable<Shop> SearchShopByName(string name)
-        {
-            return ShopRepository.GetAll().Where(p => p.Name.Equals(name));
+            //ConsoleHelper.PrintProductFilteredByPrice(maxPrice, SearchByPrice(maxPrice));
+            else
+                throw new FormatException();
         }
         public IEnumerable<SearchHandler> SearchByLikelihood(string searchString)
         {
@@ -44,11 +40,6 @@ namespace Inlämning5.Classes
 
             return searchResults;
         }
-        public IEnumerable<Product> GetAllStock()
-        {
-            return ProductRepository.GetAll();
-        }
-        
         public void GetManufacturersInventory()
         {
 
@@ -73,87 +64,33 @@ namespace Inlämning5.Classes
                 Console.WriteLine("{0,-20} {1, 10}", group.ManufacturerName, group.ProductCount);
             Console.WriteLine("-----");
         }
-        public void AddProductToCollection(Product product)
+        public void GetProductToSearch()
         {
-            ProductRepository.Insert(product);
+            Console.WriteLine("Insert a product to search");
+            var wordToSearch = Console.ReadLine();
 
-        }
-        public Shop AddShopToCollection(string shopName)
-        {
-            var newShop = new Shop(shopName);
-            ShopRepository.Insert(newShop);
-            newShop.Id = SearchShopByName(shopName).First().Id;
-            return newShop;
-
-        }
-        public void UpdateProductPrice(Product product)
-        {
-            var matches = SearchProductByName(product.Name);
-            if (matches.Any())
-            {
-                product.Id = matches.First().Id;
-                product.Name = matches.First().Name;
-                product.Manufacturer = matches.First().Manufacturer;
-                product.Shops = matches.First().Shops;
-                ProductRepository.Update(product);
-            }
+            var results = SearchByLikelihood(wordToSearch);
+            if (results.Any())
+                ConsoleHelper.PrintFuzzySearchResults(results);
             else
-                throw new InvalidOperationException();
+                Console.WriteLine("No match found");
 
+            ;
         }
-        public void UpdateProductName(Product product)
+        public void GetMaxPriceToCompare()
         {
-            var matches = SearchProductByName(product.Name);
-            if (matches.Any())
+            Console.WriteLine("Insert max price");
+            var maxPrice = Console.ReadLine();
+            try
             {
-                product.Id = matches.First().Id;
-                product.Price = matches.First().Price;
-                product.Manufacturer = matches.First().Manufacturer;
-                product.Shops = matches.First().Shops;
-                ProductRepository.Update(product);
-            }
-            else
-                throw new InvalidOperationException();
-
-        }
-        public void UpdateExistingProductInCollection(Product product)
-        {
-            ProductRepository.Update(product);
-            
-        }
-        public void UpdateProductAvailability(Product newProduct, string butikName)
-        {
-            var newShop = new Shop();
-            if (!SearchShopByName(butikName).Any())
+                var matches = SearchByPrice(maxPrice);
+                ConsoleHelper.PrintProductFilteredByPrice(matches);
+            }  
+            catch (FormatException)
             {
-                newShop = AddShopToCollection(butikName);
-            }
-            newProduct.AddShop(newShop);
-        }
-        public void RemoveProductFromCollection(string productName)
-        {
-            var matches = SearchProductByName(productName);
-            ProductRepository.Delete(matches.First());
-
-
-        }
-        public void RemoveShopFromCollection(string shopName)
-        {
-            var shopToRemove = SearchShopByName(shopName);
-            if (shopToRemove.Any())
-            {
-                ShopRepository.Delete(shopToRemove.First());
-            }
-            var productsList = ProductRepository.GetAll().ToList();
-            foreach (var product in productsList)
-            {
-
-                var matches = product.Shops.Where(b => b.Name == shopName);
-                if (matches.Any())
-                    product.RemoveShop(matches.First());
+                Console.WriteLine("Price must be a value > 0");
             }
         }
-        
 
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Inlämning5.Classes.Repositories;
 using Inlämning5.Classes.Filters;
-
+using Inlämning5.Classes.Helpers;
 
 namespace Inlämning5.Classes
 {
@@ -25,9 +25,10 @@ namespace Inlämning5.Classes
 
             IProduktRepository productRepo = new MongoDbProductsRepository(_collectionProducts);
             IButikRepository shopRepo = new MongoDbShopsRepository(_collectionShops);
-            ProductFilters productQuery = new ProductFilters(productRepo, shopRepo);
+            EntitiesHelper entitiesHelper = new EntitiesHelper(productRepo, shopRepo);
+            ProductFilters productQuery = new ProductFilters(productRepo);
 
-            Actions action = new Actions(productQuery);
+            Actions action = new Actions(entitiesHelper);
             bool endloop = false;
             while (!endloop)
             {
@@ -71,17 +72,17 @@ namespace Inlämning5.Classes
                             break;
                         case 9:
                             Console.Clear();
-                            action.GetProductToSearch();
+                            productQuery.GetProductToSearch();
                             break;
                         case 10:
                             Console.Clear();
-                            action.GetMaxPriceToCompare();
+                            productQuery.GetMaxPriceToCompare();
                             break;
                         case 11:
                             productQuery.GetManufacturersInventory();
                             break;
                         case 12:
-                            ConsoleHelper.PrintProductsList(productQuery.GetAllStock());
+                            ConsoleHelper.PrintProductsList(entitiesHelper.GetAllStock());
                             break;
                         case 0:
                             endloop = true;
