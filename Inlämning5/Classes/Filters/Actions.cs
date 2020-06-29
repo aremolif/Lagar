@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Inlämning5.Classes.Helpers;
-using MongoDB.Bson;
-using Nancy.ViewEngines;
 
 namespace Inlämning5.Classes.Filters
 {
     public class Actions
     {
-        //private ProductFilters ProductQuery { get; }
         private EntitiesHelper EntitiesHelper { get; }
         public Actions(EntitiesHelper entitiesHelper)
         {
             EntitiesHelper = entitiesHelper;
         }
-        //public Actions(ProductFilters productQuery)
-        //{
-        //    ProductQuery = productQuery;
-        //}
+        
         public void AddNewProduct()
         {
             string productName = ConsoleHelper.GetProductName();
@@ -38,11 +31,14 @@ namespace Inlämning5.Classes.Filters
         {
             ConsoleHelper.PrintList("Products", EntitiesHelper.GetAllStock().Select(p => p.Name));
             string productName = ConsoleHelper.GetProductName();
+            
             try
             {
                 var product = new Product();
                 product.Name = productName;
-                EntitiesHelper.UpdateProductName(product);
+                Console.WriteLine("Insert new name:");
+                string newName = Console.ReadLine();
+                EntitiesHelper.UpdateProductName(newName, product);
                 ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));
 
             }
@@ -62,6 +58,7 @@ namespace Inlämning5.Classes.Filters
                 product.Name = productName;
                 product.Price = ConsoleHelper.GetProductPrice();
                 EntitiesHelper.UpdateProductPrice(product);
+                Console.WriteLine("  >Done");
                 ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));
             }
             catch (InvalidOperationException)
@@ -85,7 +82,7 @@ namespace Inlämning5.Classes.Filters
             }
 
         }
-        public void GetShopsListFromStock()
+        public void FindProductAvailability()
         {
             ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert product name");
@@ -100,7 +97,7 @@ namespace Inlämning5.Classes.Filters
             else
                 Console.WriteLine($"  >Product {productToCheck} not found"); ;
         }
-        public void GetShopToRemove()
+        public void RemoveShop()
         {
             Console.WriteLine("Insert shop name");
             string shopName = Console.ReadLine();
@@ -126,14 +123,17 @@ namespace Inlämning5.Classes.Filters
                     else
                     {
                         if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                            EntitiesHelper.UpdateShopsWithinProduct(product, butikName);
+                            product = EntitiesHelper.UpdateShopsWithinProduct(product, butikName);
                           
                     }
                 }
+                
                 EntitiesHelper.UpdateExistingProductInCollection(product);
+                ConsoleHelper.PrintShopsWithinProduct(product);
             }
             else
-                Console.WriteLine("Product not found"); ;
+                Console.WriteLine("Product not found");
+            
         }
         public void RemoveShopAvailability()
         {
@@ -157,6 +157,7 @@ namespace Inlämning5.Classes.Filters
                 }
                 else
                     Console.WriteLine("Shop not found");
+                ConsoleHelper.PrintShopsWithinProduct(product);
             }
             else
                 Console.WriteLine("Product not found");

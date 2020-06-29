@@ -23,11 +23,13 @@ namespace Inlämning5.Classes
             var _collectionProducts = _database.GetCollection<Product>("Products");
             var _collectionShops = _database.GetCollection<Shop>("Shops");
 
+            //mettere check se mongodb risponde
+
             IProduktRepository productRepo = new MongoDbProductsRepository(_collectionProducts);
             IButikRepository shopRepo = new MongoDbShopsRepository(_collectionShops);
             EntitiesHelper entitiesHelper = new EntitiesHelper(productRepo, shopRepo);
-            SearchHandler distanceCounter = new SearchHandler();
-            ProductFilters productQuery = new ProductFilters(productRepo, distanceCounter);
+            //SearchHandler distanceCounter = new SearchHandler();
+            ProductFilters productQuery = new ProductFilters(productRepo);
 
             Actions action = new Actions(entitiesHelper);
             bool endloop = false;
@@ -65,11 +67,11 @@ namespace Inlämning5.Classes
                             break;
                         case 7:
                             Console.Clear();
-                            action.GetShopToRemove();
+                            action.RemoveShop();
                             break;
                         case 8:
                             Console.Clear();
-                            action.GetShopsListFromStock();
+                            action.FindProductAvailability();
                             break;
                         case 9:
                             Console.Clear();

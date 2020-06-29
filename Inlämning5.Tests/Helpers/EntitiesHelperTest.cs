@@ -47,8 +47,27 @@ namespace Inlämning5.Tests
             var shopsRepo = new FakeShopsRepository(CreateTestShops());
             return new EntitiesHelper(productsRepo, shopsRepo);
         }
-        
-        
+
+        [Fact]
+        public void UpdateShopsWithinProductShouldReturnAProductWithAPopulatedListOfShops()
+        {
+            var _cut = CreateEntitiesHelper();
+            Product product = new Product(){
+                Id = "123",
+                Name = "Stavmixer",
+                Manufacturer = new Manufacturer() { Name = "Braun" },
+                Price = 390
+
+            };
+            string shopName = "Stockholm";
+            
+            product = _cut.UpdateShopsWithinProduct(product, shopName);
+
+            
+            Assert.Equal("Stockholm", product.Shops.First().Name);
+
+        }
+
         [Fact]
         public void SearchProductByNameShouldReturnProductDetailsWhenMatchesAreFound()
         {

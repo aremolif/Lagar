@@ -8,14 +8,21 @@ namespace Inlämning5.Classes
     public class ProductFilters
     {
         private IProduktRepository ProductRepository { get; }
-        private SearchHandler DistanceCounter { get; }
+        //private SearchHandler DistanceCounter { get; set; }
+        
+        //public ProductFilters(IProduktRepository productRepository, SearchHandler distanceCounter)
+        //{
+        //    ProductRepository = productRepository;
+        //    DistanceCounter = distanceCounter;
 
-        public ProductFilters(IProduktRepository productRepository, SearchHandler distanceCounter)
+        //}
+        public ProductFilters(IProduktRepository productRepository)
         {
             ProductRepository = productRepository;
-            DistanceCounter = distanceCounter;
+            
 
         }
+
         public IEnumerable<Product> SearchByPrice(string price)
         {
             var maxPrice = decimal.Parse(price);
@@ -28,17 +35,19 @@ namespace Inlämning5.Classes
         }
         public IEnumerable<SearchHandler> SearchByLikelihood(string searchString)
         {
+            var distanceList = new List<SearchHandler>();
             var products = ProductRepository.GetAll();
             var num = products.Count();
-            var distanceList = new List<SearchHandler>();
-            var customThreshold = 0.28;
+            
+            double customThreshold = 0.25;
             foreach (var p in products)
             {
-                
-                DistanceCounter.Distance = DistanceCounter.GetDistance(searchString, p.Name);
-                DistanceCounter.MatchedName = p.Name;
-                distanceList.Add(DistanceCounter);
+                var distanceCounter = new SearchHandler();
+                distanceCounter.Distance = distanceCounter.GetDistance(searchString, p.Name);
+                distanceCounter.MatchedName = p.Name;
+                distanceList.Add(distanceCounter);
             }
+            
             var searchResults = distanceList.Where(d => d.Distance > customThreshold)
                                             .OrderByDescending(x => x.Distance);
 
@@ -70,7 +79,7 @@ namespace Inlämning5.Classes
         }
         public void GetProductToSearch()
         {
-            Console.WriteLine("Insert a product to search");
+            Console.WriteLine("Insert product name to search");
             var wordToSearch = Console.ReadLine();
 
             var results = SearchByLikelihood(wordToSearch);

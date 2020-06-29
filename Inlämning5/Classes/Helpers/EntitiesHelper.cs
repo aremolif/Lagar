@@ -62,11 +62,12 @@ namespace Inlämning5.Classes.Helpers
                 throw new InvalidOperationException();
 
         }
-        public void UpdateProductName(Product product)
+        public void UpdateProductName(string newName, Product product)
         {
             var matches = SearchProductByName(product.Name);
             if (matches.Any())
             {
+                product.Name = newName;
                 product.Id = matches.First().Id;
                 product.Price = matches.First().Price;
                 product.Manufacturer = matches.First().Manufacturer;
@@ -82,14 +83,15 @@ namespace Inlämning5.Classes.Helpers
             ProductRepository.Update(product);
 
         }
-        public void UpdateShopsWithinProduct(Product newProduct, string butikName)
+        public Product UpdateShopsWithinProduct(Product newProduct, string shopName)
         {
-            var newShop = new Shop();
-            if (!SearchShopByName(butikName).Any())
+            var newShop = new Shop() { Name = shopName};
+            if (!SearchShopByName(shopName).Any())
             {
-                newShop = AddShopToCollection(butikName);
+                newShop = AddShopToCollection(shopName);
             }
             newProduct.AddShop(newShop);
+            return newProduct;
         }
         public void RemoveProductFromCollection(string productName)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Inlämning5.Classes;
 using Xunit;
@@ -45,9 +46,9 @@ namespace Inlämning5.Tests.Filters
         ProductFilters CreateProductFilters()
         {
             var productsRepo = new FakeProductsRepository(CreateTestProducts());
-            var distanceCounter = new SearchHandler();
             
-            return new ProductFilters(productsRepo, distanceCounter);
+            
+            return new ProductFilters(productsRepo);
         }
         [Fact]
         public void SearchByPriceShouldReturnAnEmptyListOfPoductsFilteredByPriceWhenNoMatchesAreFound()
@@ -75,9 +76,9 @@ namespace Inlämning5.Tests.Filters
         public void SearchByNameLikelihoodShouldReturnAnEmptyListWhenDistanceIsLessThanCustomThreshold()
         {
             var _cut = CreateProductFilters();
-            var productName = "Stabmixer";
-            var actualListOfMatchedName = _cut.SearchByLikelihood(productName);
-            Assert.Empty(actualListOfMatchedName);
+            var productName = "Elvisp";
+            var actualListOfMatchedNames = _cut.SearchByLikelihood(productName);
+            Assert.Empty(actualListOfMatchedNames);
 
         }
         [Fact]
@@ -85,8 +86,9 @@ namespace Inlämning5.Tests.Filters
         {
             var _cut = CreateProductFilters();
             var productName = "våg";
-            var actualListOfMatchedName = _cut.SearchByLikelihood(productName);
-            Assert.Empty(actualListOfMatchedName);
+            var actualListOfMatchedNames = _cut.SearchByLikelihood(productName);
+           
+            Assert.Equal(2, actualListOfMatchedNames.Count());
 
         }
     }
