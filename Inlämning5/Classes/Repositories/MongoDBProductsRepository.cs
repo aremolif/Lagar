@@ -12,7 +12,6 @@ namespace Inlämning5.Classes.Repositories
         private IMongoCollection<Product> _collection;
         public MongoDbProductsRepository(IMongoCollection<Product> collection)
         {
-            
             _collection = collection;
         }
         public IEnumerable<Product> GetAll()
@@ -26,7 +25,6 @@ namespace Inlämning5.Classes.Repositories
         }
         public void Delete(Product product)
         {
-            //Builders<Product>.Filter.Eq(x => x.Id, id)
             _collection.DeleteOne(s => s.Id == product.Id);
         }
         public void Insert(Product product)

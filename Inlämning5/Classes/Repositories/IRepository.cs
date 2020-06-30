@@ -13,5 +13,4 @@ namespace Inlämning5.Classes
         void Update(T item);
         void Save();
     }
-
 }

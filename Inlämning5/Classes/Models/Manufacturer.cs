@@ -23,6 +23,5 @@ namespace Inlämning5.Classes
         {
             return Name;
         }
-
     }
 }

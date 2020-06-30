@@ -21,7 +21,6 @@ namespace Inlämning5.Classes.Helpers
         public IEnumerable<Product> GetProductByName(string name)
         {
             return ProductRepository.GetAll().Where(p => p.Name.Equals(name));
-
         }
         public IEnumerable<Shop> GetShopByName(string name)
         {
@@ -30,19 +29,15 @@ namespace Inlämning5.Classes.Helpers
         public void AddProductToCollection(Product product)
         {
             ProductRepository.Insert(product);
-
         }
         public void RemoveProductFromCollection(string productName)
         {
             var matches = GetProductByName(productName);
             ProductRepository.Delete(matches.First());
-
-
         }
         public void UpdateProductInCollection(Product product)
         {
             ProductRepository.Update(product);
-
         }
         public Shop AddShopToCollection(string shopName)
         {
@@ -67,14 +62,12 @@ namespace Inlämning5.Classes.Helpers
                     product.RemoveShop(matches.First());
             }
         }
-        
         public Product UpdateShopsWithinProduct(Product newProduct, string shopName)
         {
             var newShop = new Shop() { Name = shopName};
             if (!GetShopByName(shopName).Any())
-            {
                 newShop = AddShopToCollection(shopName);
-            }
+            newShop.Id = GetShopByName(shopName).First().Id;
             newProduct.AddShop(newShop);
             return newProduct;
         }
@@ -109,7 +102,5 @@ namespace Inlämning5.Classes.Helpers
                 throw new InvalidOperationException();
 
         }
-        
-
     }
 }

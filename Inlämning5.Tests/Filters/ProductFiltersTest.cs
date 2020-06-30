@@ -52,7 +52,6 @@ namespace Inlämning5.Tests.Filters
         [Fact]
         public void SearchByPriceShouldReturnAnEmptyListOfPoductsFilteredByPriceWhenNoMatchesAreFound()
         {
-
             var _cut = CreateProductFilters();
             var maxPrice = "100";
 
@@ -91,5 +90,6 @@ namespace Inlämning5.Tests.Filters
            
             Assert.Equal(2, actualListOfMatchedNames.Count());
         }
+        
     }
 }

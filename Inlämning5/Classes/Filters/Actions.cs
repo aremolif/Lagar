@@ -91,7 +91,6 @@ namespace Inlämning5.Classes.Filters
             {
                 var product = matches.First();
                 ConsoleHelper.PrintList<Shop>("Current availability",product.Shops);
-                Console.WriteLine("Insert shops - type exit to finish:");
                 AddShopsToProduct(product);
                 EntitiesHelper.UpdateProductInCollection(product);
                 ConsoleHelper.PrintList<Shop>("Current availability", product.Shops);

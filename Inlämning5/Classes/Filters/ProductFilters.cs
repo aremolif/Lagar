@@ -8,26 +8,15 @@ namespace Inlämning5.Classes
     public class ProductFilters
     {
         private IProductRepository ProductRepository { get; }
-        //private SearchHandler DistanceCounter { get; set; }
-        
-        //public ProductFilters(IProduktRepository productRepository, SearchHandler distanceCounter)
-        //{
-        //    ProductRepository = productRepository;
-        //    DistanceCounter = distanceCounter;
-
-        //}
         public ProductFilters(IProductRepository productRepository)
         {
             ProductRepository = productRepository;
         }
-
         public IEnumerable<Product> SearchByPrice(string price)
         {
             var maxPrice = decimal.Parse(price);
             if (maxPrice > 0)
                 return ProductRepository.GetAll().Where(s => s.Price < maxPrice).OrderByDescending(p => p.Price).Take(10);
-
-            //ConsoleHelper.PrintProductFilteredByPrice(maxPrice, SearchByPrice(maxPrice));
             else
                 throw new FormatException();
         }
@@ -45,7 +34,6 @@ namespace Inlämning5.Classes
                 distanceCounter.MatchedName = p.Name;
                 distanceList.Add(distanceCounter);
             }
-            
             var searchResults = distanceList.Where(d => d.Distance > customThreshold)
                                             .OrderByDescending(x => x.Distance);
 
@@ -61,11 +49,7 @@ namespace Inlämning5.Classes
             if (matchedProducts.Any())
             {
                 foreach (var product in matchedProducts)
-                {
-                    //Console.WriteLine("Current availability");
-                    //ConsoleHelper.PrintShopsList(product);
                     ConsoleHelper.PrintList<Shop>("Current availability",product.Shops);
-                }
             }
             else
                 Console.WriteLine($"  >Product {productToCheck} not found"); ;
@@ -74,8 +58,6 @@ namespace Inlämning5.Classes
         {
 
             var products = ProductRepository.GetAll();
-
-
             var manufactures = products.SelectMany(p => p.Shops, (manufacturer, shop) => new
             {
                 manufacturer,
@@ -104,8 +86,6 @@ namespace Inlämning5.Classes
                 ConsoleHelper.PrintList<SearchHandler>("Search results", results);
             else
                 Console.WriteLine("No match found");
-
-            ;
         }
         public void SearchProductsByPrice()
         {

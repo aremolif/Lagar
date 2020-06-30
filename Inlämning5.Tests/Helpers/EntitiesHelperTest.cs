@@ -64,7 +64,6 @@ namespace Inlämning5.Tests.Helpers
             Assert.Equal("Stockholm", product.Shops.First().Name);
 
         }
-
         [Fact]
         public void GetProductByNameShouldReturnProductDetailsWhenMatchesAreFound()
         {

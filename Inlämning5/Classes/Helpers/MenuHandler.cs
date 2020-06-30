@@ -23,12 +23,10 @@ namespace Inlämning5.Classes
             var _collectionProducts = _database.GetCollection<Product>("Products");
             var _collectionShops = _database.GetCollection<Shop>("Shops");
 
-            //mettere check se mongodb risponde
-
             IProductRepository productRepo = new MongoDbProductsRepository(_collectionProducts);
             IShopRepository shopRepo = new MongoDbShopsRepository(_collectionShops);
+            
             EntitiesHelper entitiesHelper = new EntitiesHelper(productRepo, shopRepo);
-            //SearchHandler distanceCounter = new SearchHandler();
             ProductFilters productQuery = new ProductFilters(productRepo);
 
             Actions action = new Actions(entitiesHelper);
@@ -101,11 +99,6 @@ namespace Inlämning5.Classes
                 }
             }
         }
-
-
-
-
     }
-    
 }
 

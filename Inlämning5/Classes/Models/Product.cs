@@ -12,16 +12,13 @@ namespace Inlämning5.Classes
         public string Id { get; set; }
         private  string _name;
         private decimal _price;
-               
         public Manufacturer Manufacturer { get; set; }
         public ICollection<Shop> Shops { get; set; }
-        
         public Product()  
         {
             this.Manufacturer = new Manufacturer();
             this.Shops = new List<Shop>();
         }
-        
         public string Name
         {
             get
@@ -54,8 +51,6 @@ namespace Inlämning5.Classes
         {
             Shops.Remove(shop);
         }
-        
-
         public override string ToString() => $"Name: {Name} Price: {Price} Tillverkare: {Manufacturer.Name} ";
     }
 }
