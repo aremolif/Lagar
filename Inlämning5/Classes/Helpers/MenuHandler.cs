@@ -25,8 +25,8 @@ namespace Inlämning5.Classes
 
             //mettere check se mongodb risponde
 
-            IProduktRepository productRepo = new MongoDbProductsRepository(_collectionProducts);
-            IButikRepository shopRepo = new MongoDbShopsRepository(_collectionShops);
+            IProductRepository productRepo = new MongoDbProductsRepository(_collectionProducts);
+            IShopRepository shopRepo = new MongoDbShopsRepository(_collectionShops);
             EntitiesHelper entitiesHelper = new EntitiesHelper(productRepo, shopRepo);
             //SearchHandler distanceCounter = new SearchHandler();
             ProductFilters productQuery = new ProductFilters(productRepo);
@@ -55,11 +55,11 @@ namespace Inlämning5.Classes
                             break;
                         case 4:
                             Console.Clear();
-                            action.AddShopAvailability();
+                            action.UpdateShopsinProduct();
                             break;
                         case 5:
                             Console.Clear();
-                            action.RemoveShopAvailability();
+                            action.RemoveShopFromProduct();
                             break;
                         case 6:
                             Console.Clear();
@@ -71,7 +71,7 @@ namespace Inlämning5.Classes
                             break;
                         case 8:
                             Console.Clear();
-                            action.FindProductAvailability();
+                            productQuery.SearchProductAvailability();
                             break;
                         case 9:
                             Console.Clear();
@@ -79,7 +79,7 @@ namespace Inlämning5.Classes
                             break;
                         case 10:
                             Console.Clear();
-                            productQuery.GetMaxPriceToCompare();
+                            productQuery.SearchProductsByPrice();
                             break;
                         case 11:
                             productQuery.GetManufacturersInventory();

@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace Inlämning5.Classes.Repositories
 {
-    public class MongoDbProductsRepository : IProduktRepository
+    public class MongoDbProductsRepository : IProductRepository
     {
         
         private IMongoCollection<Product> _collection;

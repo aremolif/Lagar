@@ -7,49 +7,80 @@ namespace Inlämning5.Classes.Helpers
 {
     public class EntitiesHelper
     {
-        private IProduktRepository ProductRepository { get; }
-        private IButikRepository ShopRepository { get; }
-        public EntitiesHelper(IProduktRepository productRepository, IButikRepository shopRepository)
+        private IProductRepository ProductRepository { get; }
+        private IShopRepository ShopRepository { get; }
+        public EntitiesHelper(IProductRepository productRepository, IShopRepository shopRepository)
         {
             ProductRepository = productRepository;
             ShopRepository = shopRepository;
         }
-
         public IEnumerable<Product> GetAllStock()
         {
             return ProductRepository.GetAll();
         }
+        public IEnumerable<Product> GetProductByName(string name)
+        {
+            return ProductRepository.GetAll().Where(p => p.Name.Equals(name));
 
+        }
+        public IEnumerable<Shop> GetShopByName(string name)
+        {
+            return ShopRepository.GetAll().Where(p => p.Name.Equals(name));
+        }
         public void AddProductToCollection(Product product)
         {
             ProductRepository.Insert(product);
+
+        }
+        public void RemoveProductFromCollection(string productName)
+        {
+            var matches = GetProductByName(productName);
+            ProductRepository.Delete(matches.First());
+
+
+        }
+        public void UpdateProductInCollection(Product product)
+        {
+            ProductRepository.Update(product);
 
         }
         public Shop AddShopToCollection(string shopName)
         {
             var newShop = new Shop(shopName);
             ShopRepository.Insert(newShop);
-            newShop.Id = SearchShopByName(shopName).First().Id;
+            newShop.Id = GetShopByName(shopName).First().Id;
             return newShop;
         }
-        public void AddShopsToProduct(Product newProduct)
+        public void RemoveShopFromCollection(string shopName)
         {
-            while (true)
+            var shopToRemove = GetShopByName(shopName);
+            if (shopToRemove.Any())
             {
-                var butikName = Console.ReadLine();
-                if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (newProduct.Shops.Count > 0))
-                    break;
-                else
-                {
-                    if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                        UpdateShopsWithinProduct(newProduct, butikName);
-
-                }
+                ShopRepository.Delete(shopToRemove.First());
             }
+            var productsList = ProductRepository.GetAll().ToList();
+            foreach (var product in productsList)
+            {
+
+                var matches = product.Shops.Where(b => b.Name == shopName);
+                if (matches.Any())
+                    product.RemoveShop(matches.First());
+            }
+        }
+        
+        public Product UpdateShopsWithinProduct(Product newProduct, string shopName)
+        {
+            var newShop = new Shop() { Name = shopName};
+            if (!GetShopByName(shopName).Any())
+            {
+                newShop = AddShopToCollection(shopName);
+            }
+            newProduct.AddShop(newShop);
+            return newProduct;
         }
         public void UpdateProductPrice(Product product)
         {
-            var matches = SearchProductByName(product.Name);
+            var matches = GetProductByName(product.Name);
             if (matches.Any())
             {
                 product.Id = matches.First().Id;
@@ -64,7 +95,7 @@ namespace Inlämning5.Classes.Helpers
         }
         public void UpdateProductName(string newName, Product product)
         {
-            var matches = SearchProductByName(product.Name);
+            var matches = GetProductByName(product.Name);
             if (matches.Any())
             {
                 product.Name = newName;
@@ -78,52 +109,7 @@ namespace Inlämning5.Classes.Helpers
                 throw new InvalidOperationException();
 
         }
-        public void UpdateExistingProductInCollection(Product product)
-        {
-            ProductRepository.Update(product);
+        
 
-        }
-        public Product UpdateShopsWithinProduct(Product newProduct, string shopName)
-        {
-            var newShop = new Shop() { Name = shopName};
-            if (!SearchShopByName(shopName).Any())
-            {
-                newShop = AddShopToCollection(shopName);
-            }
-            newProduct.AddShop(newShop);
-            return newProduct;
-        }
-        public void RemoveProductFromCollection(string productName)
-        {
-            var matches = SearchProductByName(productName);
-            ProductRepository.Delete(matches.First());
-
-
-        }
-        public void RemoveShopFromCollection(string shopName)
-        {
-            var shopToRemove = SearchShopByName(shopName);
-            if (shopToRemove.Any())
-            {
-                ShopRepository.Delete(shopToRemove.First());
-            }
-            var productsList = ProductRepository.GetAll().ToList();
-            foreach (var product in productsList)
-            {
-
-                var matches = product.Shops.Where(b => b.Name == shopName);
-                if (matches.Any())
-                    product.RemoveShop(matches.First());
-            }
-        }
-        public IEnumerable<Product> SearchProductByName(string name)
-        {
-            return ProductRepository.GetAll().Where(p => p.Name.Equals(name));
-
-        }
-        public IEnumerable<Shop> SearchShopByName(string name)
-        {
-            return ShopRepository.GetAll().Where(p => p.Name.Equals(name));
-        }
     }
 }

@@ -7,7 +7,7 @@ namespace Inlämning5.Classes
 {
     public class ProductFilters
     {
-        private IProduktRepository ProductRepository { get; }
+        private IProductRepository ProductRepository { get; }
         //private SearchHandler DistanceCounter { get; set; }
         
         //public ProductFilters(IProduktRepository productRepository, SearchHandler distanceCounter)
@@ -16,11 +16,9 @@ namespace Inlämning5.Classes
         //    DistanceCounter = distanceCounter;
 
         //}
-        public ProductFilters(IProduktRepository productRepository)
+        public ProductFilters(IProductRepository productRepository)
         {
             ProductRepository = productRepository;
-            
-
         }
 
         public IEnumerable<Product> SearchByPrice(string price)
@@ -53,6 +51,25 @@ namespace Inlämning5.Classes
 
             return searchResults;
         }
+        public void SearchProductAvailability()
+        {
+            ConsoleHelper.PrintList("Warehouse products", ProductRepository.GetAll().Select(p => p.Name));
+            Console.WriteLine("Insert product name");
+            string productToCheck = Console.ReadLine();
+            var matchedProducts = ProductRepository.GetAll().Where(p => p.Name.Equals(productToCheck));
+
+            if (matchedProducts.Any())
+            {
+                foreach (var product in matchedProducts)
+                {
+                    //Console.WriteLine("Current availability");
+                    //ConsoleHelper.PrintShopsList(product);
+                    ConsoleHelper.PrintList<Shop>("Current availability",product.Shops);
+                }
+            }
+            else
+                Console.WriteLine($"  >Product {productToCheck} not found"); ;
+        }
         public void GetManufacturersInventory()
         {
 
@@ -84,26 +101,17 @@ namespace Inlämning5.Classes
 
             var results = SearchByLikelihood(wordToSearch);
             if (results.Any())
-                ConsoleHelper.PrintFuzzySearchResults(results);
+                ConsoleHelper.PrintList<SearchHandler>("Search results", results);
             else
                 Console.WriteLine("No match found");
 
             ;
         }
-        public void GetMaxPriceToCompare()
+        public void SearchProductsByPrice()
         {
-            Console.WriteLine("Insert max price");
-            var maxPrice = Console.ReadLine();
-            try
-            {
-                var matches = SearchByPrice(maxPrice);
-                ConsoleHelper.PrintProductFilteredByPrice(matches);
-            }  
-            catch (FormatException)
-            {
-                Console.WriteLine("Price must be a value > 0");
-            }
+            var priceToCompare = ConsoleHelper.GetProductPrice();
+            var matches = SearchByPrice(priceToCompare);
+            ConsoleHelper.PrintProductFilteredByPrice(matches);
         }
-
     }
 }

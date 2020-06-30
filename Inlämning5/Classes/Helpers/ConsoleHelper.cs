@@ -15,11 +15,11 @@ namespace Inlämning5.Classes
             Console.WriteLine(" 1.  Add a product");
             Console.WriteLine(" 2.  Update product name");
             Console.WriteLine(" 3.  Update product price");
-            Console.WriteLine(" 4.  Add product to a shop");
-            Console.WriteLine(" 5.  Remove product from a shop");
+            Console.WriteLine(" 4.  Add shop to a product");
+            Console.WriteLine(" 5.  Remove shop from a product");
             Console.WriteLine(" 6.  Remove a product from stock");
             Console.WriteLine(" 7.  Remove a shop from stock");
-            Console.WriteLine(" 8.  Find product availability");
+            Console.WriteLine(" 8.  Search product availability");
             Console.WriteLine(" 9.  Search products by likelihood");
             Console.WriteLine(" 10. Search products by price threshold");
             Console.WriteLine(" 11. List products available by manufacturers");
@@ -47,14 +47,18 @@ namespace Inlämning5.Classes
         public static string GetProductName()
         {
             Console.WriteLine("Insert product name:");
-            var productName = Console.ReadLine();
-            return productName;
+            return Console.ReadLine();
+            
         }
-        public static decimal GetProductPrice()
+        public static string GetProductPrice()
         {
-            Console.WriteLine("Insert new product price:");
-            var price = int.Parse(Console.ReadLine());
-            return price;
+            Console.WriteLine("Insert product price:");
+            return Console.ReadLine();
+        }
+        public static string GetShopName()
+        {
+            return Console.ReadLine();
+
         }
         public static void PrintProductFilteredByPrice(IEnumerable<Product> filteredProducts)
         {
@@ -71,19 +75,12 @@ namespace Inlämning5.Classes
         }
         public static void PrintProductsList(IEnumerable<Product> stockList)
         {
-            foreach (var p in stockList)
+            foreach (var product in stockList)
             {
-                Console.WriteLine(p);
-                foreach (var b in p.Shops)
-                    Console.WriteLine($"  >{b.Name}");
+                Console.WriteLine(product);
+                PrintList("", product.Shops);
             }
             Console.WriteLine("-----");
-        }
-        public static void PrintShopsWithinProduct(Product product)
-        {
-            Console.WriteLine("Current availability");
-            foreach (var butik in product.Shops)
-                Console.WriteLine($"  >{butik.Name}"); ;
         }
         public static void PrintList<T>(string header, IEnumerable<T> items)
         {
@@ -93,19 +90,5 @@ namespace Inlämning5.Classes
                 Console.WriteLine($"  >{item}");
             }
         }
-        public static void PrintFuzzySearchResults(IEnumerable<SearchHandler> searchResults)
-        {
-            Console.WriteLine("Search results:");
-            foreach (var s in searchResults)
-                Console.WriteLine($">  {s.MatchedName}");
-
-        }
-        public static IEnumerable<Shop> GetShopsWithinProduct(Product product)
-        {
-            return product.Shops;
-        }
     }
-    
-
-
 }

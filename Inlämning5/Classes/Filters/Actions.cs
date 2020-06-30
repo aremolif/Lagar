@@ -12,26 +12,22 @@ namespace Inlämning5.Classes.Filters
         {
             EntitiesHelper = entitiesHelper;
         }
-        
         public void AddNewProduct()
         {
             string productName = ConsoleHelper.GetProductName();
-            if (EntitiesHelper.SearchProductByName(productName).Any())
+            if (EntitiesHelper.GetProductByName(productName).Any())
                 Console.WriteLine($"Product {productName} already present. Press 2 to update in main menu");
             else
             {
-                var newProduct = ConsoleHelper.CreateNewProduct(productName);
-                Console.WriteLine("Insert shops - type exit to finish:");
-                EntitiesHelper.AddShopsToProduct(newProduct);
-                EntitiesHelper.AddProductToCollection(newProduct);
-
+                var product = ConsoleHelper.CreateNewProduct(productName);
+                AddShopsToProduct(product);
+                EntitiesHelper.AddProductToCollection(product);
             }
         }
         public void UpdateProductName()
         {
             ConsoleHelper.PrintList("Products", EntitiesHelper.GetAllStock().Select(p => p.Name));
             string productName = ConsoleHelper.GetProductName();
-            
             try
             {
                 var product = new Product();
@@ -40,13 +36,11 @@ namespace Inlämning5.Classes.Filters
                 string newName = Console.ReadLine();
                 EntitiesHelper.UpdateProductName(newName, product);
                 ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));
-
             }
             catch (InvalidOperationException)
             {
                 Console.WriteLine("  >Product not found"); ;
             }
-         
         }
         public void UpdateProductPrice()
         {
@@ -56,7 +50,7 @@ namespace Inlämning5.Classes.Filters
             {
                 var product = new Product();
                 product.Name = productName;
-                product.Price = ConsoleHelper.GetProductPrice();
+                product.Price = int.Parse(ConsoleHelper.GetProductPrice());
                 EntitiesHelper.UpdateProductPrice(product);
                 Console.WriteLine("  >Done");
                 ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));
@@ -80,90 +74,69 @@ namespace Inlämning5.Classes.Filters
             {
                 Console.WriteLine("Product not found");
             }
-
-        }
-        public void FindProductAvailability()
-        {
-            ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));
-            Console.WriteLine("Insert product name");
-            string productToCheck = Console.ReadLine();
-            var matchedProducts = EntitiesHelper.SearchProductByName(productToCheck);
-
-            if (matchedProducts.Any())
-            {
-                foreach (var product in matchedProducts)
-                    ConsoleHelper.PrintShopsWithinProduct(product);
-            }
-            else
-                Console.WriteLine($"  >Product {productToCheck} not found"); ;
         }
         public void RemoveShop()
         {
             Console.WriteLine("Insert shop name");
             string shopName = Console.ReadLine();
             EntitiesHelper.RemoveShopFromCollection(shopName);
-
         }
-        public void AddShopAvailability()
+        public void UpdateShopsinProduct()
         {
             ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert product name");
             string productAvailable = Console.ReadLine();
-            var matches = EntitiesHelper.SearchProductByName(productAvailable);
+            var matches = EntitiesHelper.GetProductByName(productAvailable);
             if (matches.Any())
             {
                 var product = matches.First();
-                ConsoleHelper.PrintShopsWithinProduct(product);
+                ConsoleHelper.PrintList<Shop>("Current availability",product.Shops);
                 Console.WriteLine("Insert shops - type exit to finish:");
-                while (true)
-                {
-                    var butikName = Console.ReadLine();
-                    if (butikName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Shops.Count > 0))
-                        break;
-                    else
-                    {
-                        if (!butikName.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                            product = EntitiesHelper.UpdateShopsWithinProduct(product, butikName);
-                          
-                    }
-                }
-                
-                EntitiesHelper.UpdateExistingProductInCollection(product);
-                ConsoleHelper.PrintShopsWithinProduct(product);
+                AddShopsToProduct(product);
+                EntitiesHelper.UpdateProductInCollection(product);
+                ConsoleHelper.PrintList<Shop>("Current availability", product.Shops);
             }
             else
                 Console.WriteLine("Product not found");
-            
         }
-        public void RemoveShopAvailability()
+        public void AddShopsToProduct(Product product)
+        {
+            Console.WriteLine("Insert shops - type exit to finish:");
+            while (true)
+            {
+                var shopName = ConsoleHelper.GetShopName();
+                if (shopName.Equals("exit", StringComparison.OrdinalIgnoreCase) && (product.Shops.Count > 0))
+                    break;
+                else
+                    EntitiesHelper.UpdateShopsWithinProduct(product, shopName);
+            }
+        }
+        public void RemoveShopFromProduct()
         {
             ConsoleHelper.PrintList("Warehouse products", EntitiesHelper.GetAllStock().Select(p => p.Name));
             Console.WriteLine("Insert product name");
             string productToUpdate = Console.ReadLine();
-            var matches = EntitiesHelper.SearchProductByName(productToUpdate);
+            var matches = EntitiesHelper.GetProductByName(productToUpdate);
             if (matches.Any())
             {
                 var product = matches.First();
-                ConsoleHelper.PrintShopsWithinProduct(product);
+                ConsoleHelper.PrintList<Shop>("Current availability", product.Shops);
                 Console.WriteLine("Insert shop to remove from product:");
                 var shopToDelete = Console.ReadLine();
 
-                var shopMatches = EntitiesHelper.SearchShopByName(shopToDelete);
+                var shopMatches = EntitiesHelper.GetShopByName(shopToDelete);
                 if (shopMatches.Any())
                 {
                     product.RemoveShop(shopMatches.First());
-                    EntitiesHelper.UpdateExistingProductInCollection(product);
-                    
+                    EntitiesHelper.UpdateProductInCollection(product);
+                    ConsoleHelper.PrintList<Shop>("Current availability", product.Shops);
+
                 }
                 else
                     Console.WriteLine("Shop not found");
-                ConsoleHelper.PrintShopsWithinProduct(product);
             }
             else
                 Console.WriteLine("Product not found");
-
         }
-        
     }
-
 }

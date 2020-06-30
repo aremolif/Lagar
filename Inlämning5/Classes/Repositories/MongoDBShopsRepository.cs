@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace Inlämning5.Classes.Repositories
 {
-    public class MongoDbShopsRepository : IButikRepository
+    public class MongoDbShopsRepository : IShopRepository
     {
         private IMongoCollection<Shop> _collection;
 

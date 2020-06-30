@@ -46,19 +46,18 @@ namespace Inlämning5.Tests.Filters
         ProductFilters CreateProductFilters()
         {
             var productsRepo = new FakeProductsRepository(CreateTestProducts());
-            
-            
             return new ProductFilters(productsRepo);
         }
+       
         [Fact]
         public void SearchByPriceShouldReturnAnEmptyListOfPoductsFilteredByPriceWhenNoMatchesAreFound()
         {
 
             var _cut = CreateProductFilters();
-
             var maxPrice = "100";
 
             var actualListOfFilteredProduct = _cut.SearchByPrice(maxPrice);
+            
             Assert.Empty(actualListOfFilteredProduct);
         }
         [Fact]
@@ -77,19 +76,20 @@ namespace Inlämning5.Tests.Filters
         {
             var _cut = CreateProductFilters();
             var productName = "Elvisp";
+            
             var actualListOfMatchedNames = _cut.SearchByLikelihood(productName);
+            
             Assert.Empty(actualListOfMatchedNames);
-
         }
         [Fact]
         public void SearchByNameLikelihoodShouldReturnAListOfMatchedProductNamesWhenDistanceIsLessThanCustomThreshold()
         {
             var _cut = CreateProductFilters();
             var productName = "våg";
+            
             var actualListOfMatchedNames = _cut.SearchByLikelihood(productName);
            
             Assert.Equal(2, actualListOfMatchedNames.Count());
-
         }
     }
 }

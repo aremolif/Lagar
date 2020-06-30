@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
 using Inlämning5.Classes;
 using Inlämning5.Classes.Helpers;
-using Inlämning5.Tests;
 using Xunit;
 
-namespace Inlämning5.Tests
+namespace Inlämning5.Tests.Helpers
 {
     public class EntitiesHelperTest
     {
@@ -62,55 +60,52 @@ namespace Inlämning5.Tests
             string shopName = "Stockholm";
             
             product = _cut.UpdateShopsWithinProduct(product, shopName);
-
-            
+                        
             Assert.Equal("Stockholm", product.Shops.First().Name);
 
         }
 
         [Fact]
-        public void SearchProductByNameShouldReturnProductDetailsWhenMatchesAreFound()
+        public void GetProductByNameShouldReturnProductDetailsWhenMatchesAreFound()
         {
             var _cut = CreateEntitiesHelper();
             string productName = "Radio";
-            var actualProduct = _cut.SearchProductByName(productName);
+            
+            var actualProduct = _cut.GetProductByName(productName);
 
             Assert.Equal("2", actualProduct.First().Id);
             Assert.Equal("Radio", actualProduct.First().Name);
             Assert.Equal(250, actualProduct.First().Price);
-
-
         }
         [Fact]
-        public void SearchProductByNameShouldReturnAnEmptyListWhenNoMatchesAreFound()
+        public void GetProductByNameShouldReturnAnEmptyListWhenNoMatchesAreFound()
         {
             var _cut = CreateEntitiesHelper();
             var productName = "Kokvåg";
-            var actualProduct = _cut.SearchProductByName(productName);
+            
+            var actualProduct = _cut.GetProductByName(productName);
 
             Assert.False(actualProduct.Any());
-
-
         }
         [Fact]
-        public void SearchShopByNameShouldReturnShopDetailsWhenMatchesAreFound()
+        public void GetShopByNameShouldReturnShopDetailsWhenMatchesAreFound()
         {
             var _cut = CreateEntitiesHelper();
             var shopName = "Malmö";
-            var actualShop = _cut.SearchShopByName(shopName);
+            
+            var actualShop = _cut.GetShopByName(shopName);
 
             Assert.Equal("2", actualShop.First().Id);
-
         }
         [Fact]
-        public void SearchShopByNameShouldReturnAnEmptyListWhenNoMatchesAreFound()
+        public void GetShopByNameShouldReturnAnEmptyListWhenNoMatchesAreFound()
         {
             var _cut = CreateEntitiesHelper();
             var shopName = "Uddevalla";
-            var actualShop = _cut.SearchShopByName(shopName);
+            
+            var actualShop = _cut.GetShopByName(shopName);
 
             Assert.False(actualShop.Any());
-
         }
         [Fact]
         public void UpdateShopCollectionShouldNotUpdateShopsListWhenShopAlreadyRegistered()
@@ -121,14 +116,11 @@ namespace Inlämning5.Tests
             var actualAddedShop = _cut.AddShopToCollection(shopName);
 
             Assert.NotNull(actualAddedShop);
-            
-
         }
         [Fact]
         public void UpdatePriceExistingProductShouldThrowAnInvalidOperationExceptionWhenProductIsNotFound()
         {
             var _cut = CreateEntitiesHelper();
-            
             var productToUpdate = new Product()
             {
                 Name = "Kaffekvarn",
@@ -137,11 +129,5 @@ namespace Inlämning5.Tests
             
             Assert.Throws<InvalidOperationException>(()=>_cut.UpdateProductPrice(productToUpdate));
         }
-       
-
     }
-
-
-    
-    
 }
